@@ -1,0 +1,74 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_formato_path(@formato) %>
+  <%= link_to 'Volver á lista de formatos', formatos_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+  
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <%= form_tag formato_path(@formato), :method => :put do%>
+      <%= label_tag 'Nome'%>
+      <%= text_field_tag('nome', @formato.nome)%>
+      <%= label_tag 'Descricion'%>
+      <%= text_area_tag('descricion', @formato.descricion, :size => "70x5", :resize => "horizontal")%>
+      <br /><br />
+      <%= submit_tag "Actualizar datos" %>
+    <% end %>
+  </div>
+
+  <h2> Subformatos</h2>
+  <div id="datos">
+    <%  if @formato.subformatos.empty? %>
+      <p>O formato non pos&uacute;e subformatos.</p>
+    <%  else %>
+      <% @formato.subformatos.each do |subformato| %>
+        <p> Subformato para dispositivo <%= subformato.dispositivoloxico.relacionAspectoHorizontal %>:<%= subformato.dispositivoloxico.relacionAspectoVertical %>
+        </p>
+        <p>
+          <%= link_to 'Consultar', subformato %>
+          <%= image_tag 'info.png', :size => '20x20', :style => 'vertical-align: top;' %>
+        </p>
+      <% end %>
+    <%  end %>
+
+    <% if !@dispositivosSenSubformato.empty? %>
+      <p> Pode crear subformatos para dispositivos que aínda non teñan.</p>
+      <%= form_tag subformatos_path do%>
+        <% @dispositivosSenSubformato.each do |dispositivo| %>
+          <%= check_box_tag 'dispositivo[]', dispositivo.id %>
+          <%= dispositivo.relacionAspectoHorizontal %>:<%= dispositivo.relacionAspectoVertical %>
+        <% end %>
+        <br /><br />
+        <%= hidden_field_tag :idFormato, @formato.id %>
+        <%= submit_tag 'Crear Subformatos' %>
+      <%  end %>
+    <% end %>
+  </div>
+  
+  <h2> Campos </h2>
+  <div id="datos">
+  <% if @formato.campos.empty? then %>
+    <p> Non existen campos.</p>
+    <%= link_to 'Xestionar campos', campos_path(:idFormato => @formato.id) %>
+  <% else %>
+    <table id="tabla">
+    <tr>
+      <th> Tipo </th>
+      <th> Subtipo </th>
+    </tr>
+    <% @formato.campos.each do |campo| %>
+    <tr>
+      <td> <%= campo.tipo %> </td>
+      <td> <%= campo.subtipo %> </td>
+    </tr>
+    <% end %>
+    </table>
+    <p><%= link_to 'Xestionar campos', campos_path(:idFormato => @formato.id) %></p>
+  <% end %>
+  </div>
+</div>

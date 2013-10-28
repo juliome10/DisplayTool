@@ -1,0 +1,44 @@
+# encoding: utf-8
+Feature: 18. Modificación dos valores dos campos dun estilo
+  Como usuario da aplicación
+  Quero poder modificar os valores que terá cada tipo de campo
+  Para que cada un destos cumpra as novas necesidades
+
+  Background: datos almacenados na base de datos[90m # 18.feature:8[0m
+    [32mGiven the following estilos exist:[90m           # step_definitions/estilos_steps.rb:3[0m[0m
+      | [32mnome     [0m[0m |[0m
+      | [32mEstilo Un[0m[0m |[0m
+    [32mGiven the following campos exist:[90m            # step_definitions/campos_steps.rb:3[0m[0m
+      | [32mtipo [0m[0m |[0m [32msubtipo[0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mTítulo [0m[0m |[0m
+    [32mGiven the following parametros exist:[90m        # step_definitions/parametros_steps.rb:3[0m[0m
+      | [32mnome                        [0m[0m |[0m [32mvariable                [0m[0m |[0m [32mvalor        [0m[0m |[0m
+      | [32mAliñado horizontal do título[0m[0m |[0m [32mtitulo_alinadoHorizontal[0m[0m |[0m [32mCentrado     [0m[0m |[0m
+      | [32mAliñado vertical do título  [0m[0m |[0m [32mtitulo_alinadoVertical  [0m[0m |[0m [32mCentro       [0m[0m |[0m
+      | [32mCor da fonte do título      [0m[0m |[0m [32mtitulo_cor              [0m[0m |[0m [32m#ffffff      [0m[0m |[0m
+      | [32mFonte do título             [0m[0m |[0m [32mtitulo_fonte            [0m[0m |[0m [32mComic Sans MS[0m[0m |[0m
+      | [32mTamaño da fonte do título   [0m[0m |[0m [32mtitulo_tamano           [0m[0m |[0m [32m40px         [0m[0m |[0m
+
+  Scenario: Modificación dos valores dos campos dun estilo[90m                           # 18.feature:26[0m
+    [32mGiven estilo called "[32m[1mEstilo Un[0m[0m[32m" has default values for "[32m[1mTítulo[0m[0m[32m" campo[90m            # step_definitions/estilos_steps.rb:10[0m[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                      # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mEstilos[0m[0m[32m"[90m                                                          # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Estilos" page[0m[0m[32m[90m                                               # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                           # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Estilo" called "Estilo Un"[0m[0m[32m[90m                    # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I select "[32m[1mVerdana[0m[0m[32m" from "[32m[1mfontes_[0m[0m[32m"[90m                                           # step_definitions/web_steps.rb:99[0m[0m
+    [32mAnd I fill in "[32m[1mcores_[0m[0m[32m" with "[32m[1m#fefefe[0m[0m[32m"[90m                                            # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mtamanos_[0m[0m[32m" with "[32m[1m100px[0m[0m[32m"[90m                                            # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I select "[32m[1mDereita[0m[0m[32m" from "[32m[1malinadosH_[0m[0m[32m"[90m                                         # step_definitions/web_steps.rb:99[0m[0m
+    [32mAnd I select "[32m[1mAbaixo[0m[0m[32m" from "[32m[1malinadosV_[0m[0m[32m"[90m                                          # step_definitions/web_steps.rb:99[0m[0m
+    [32mAnd I press the [32m[1mthird[0m[0m[32m "[32m[1mActualizar datos[0m[0m[32m" button[90m                                  # step_definitions/web_steps.rb:62[0m[0m
+    [32mThen I should be on [32m[1mpage for view details from "Estilo" called "Estilo Un"[0m[0m[32m[90m       # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1mVerdana[0m[0m[32m" as "[32m[1mfonte[0m[0m[32m" for "[32m[1mTítulo[0m[0m[32m"[90m              # step_definitions/estilos_steps.rb:34[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1m#fefefe[0m[0m[32m" as "[32m[1mcor[0m[0m[32m" for "[32m[1mTítulo[0m[0m[32m"[90m                # step_definitions/estilos_steps.rb:34[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1m100px[0m[0m[32m" as "[32m[1mtamaño[0m[0m[32m" for "[32m[1mTítulo[0m[0m[32m"[90m               # step_definitions/estilos_steps.rb:34[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1mDereita[0m[0m[32m" as "[32m[1maliñado horizontal[0m[0m[32m" for "[32m[1mTítulo[0m[0m[32m"[90m # step_definitions/estilos_steps.rb:34[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1mAbaixo[0m[0m[32m" as "[32m[1maliñado vertical[0m[0m[32m" for "[32m[1mTítulo[0m[0m[32m"[90m    # step_definitions/estilos_steps.rb:34[0m[0m
+
+1 scenario ([32m1 passed[0m)
+21 steps ([32m21 passed[0m)
+0m1.260s

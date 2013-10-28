@@ -1,0 +1,23 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_dispositivofisico_path(@dispositivofisico) %>
+  <%= link_to 'Volver ó listado de dispositivos físicos', dispositivofisicos_path %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Nome:</b> <%= @dispositivofisico.nome %></p>
+    <p><b>Descrición:</b> <%= @dispositivofisico.descricion %></p>
+    <p><b>Situación:</b> <%= @dispositivofisico.situacion %></p>
+    <p><b>Tipo de dispositivo:</b> <%= @dispositivofisico.dispositivoloxico.relacionAspectoHorizontal %>:<%= @dispositivofisico.dispositivoloxico.relacionAspectoVertical %></p>
+    <p><b>Url do dispositivo:</b> <%=link_to @dispositivofisico.url, @dispositivofisico.url, :target => '_blank' %></p>
+    <p><b>Lista de reprodución asignada: </b>
+      <% if @dispositivofisico.listareproducion.nil? %>
+        Por agora non hai existe lista asociada.
+      <% else %>
+        <%= @dispositivofisico.listareproducion.nome %>
+      <% end %>
+    </p>
+  </div>
+
+</div>

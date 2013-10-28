@@ -1,0 +1,37 @@
+<%if flash[:notice]%>
+<div><%= flash[:notice]%></div>
+<% end %>
+
+<h1>Almacén de diapositivas</h1>
+
+<% if @diapositivas.empty? %>
+ Non existen diapositivas!
+<% else %>
+<table id="formatos">
+  <tr>
+    <th>Id</th>
+    <th>Familia Formato</th>
+    <th>Contido</th>
+    <th>Estilo</th>
+    <th>Url</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @diapositivas.each do |diapositiva| %>
+  <tr>
+	<td><%= diapositiva.id %></td>
+	<td><%= diapositiva.familiaFormatos_id %></td>
+	<td><%= diapositiva.contido %></td>    
+	<td><%= diapositiva.estilo_id %></td>
+ 	<td><%= diapositiva.url %></td>
+ 	<td><%= link_to 'Editar', edit_diapositiva_path(diapositiva) %></td>
+        <td><%= link_to 'Eliminar', diapositiva, method: :delete, data: { confirm: 'Seguro?' } %></td>
+  </tr>
+<% end %>
+</table>
+<%end%>
+
+<br />
+
+<%= link_to 'Nova diapositiva', new_diapositiva_path %>

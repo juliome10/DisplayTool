@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<h1> Formato id = <%= params[:idFormato] %> </h1>
+<h2> Crear Novo Campo </h2>
+
+<%= form_tag campos_path do%>
+	<%= label_tag 'Tipo'%>
+	<%= select_tag :tipo, "<option>Imaxe</option><option>Texto</option><option>Vídeo</option>".html_safe%>
+	<%= label_tag 'Subtipo'%>
+	<%= select_tag :subtipo, "<option></option><option>Logo</option><option>Imaxe Completa</option><option>Imaxe Resumo</option><option>Título</option><option>Subtítulo</option><option>Resumo</option><option>Descrición</option><option>Pé</option>".html_safe%>
+        <%= hidden_field_tag :idFormato, params[:idFormato] %>
+        <br><br>
+        <%= submit_tag "Gardar campo"%>
+<% end %>
+
+<br><br>
+<%= link_to "Volver á edición do formato", edit_formato_path(params[:idFormato]) %>
+<br><br>
+<%= link_to "Volver á lista de formatos", formatos_path %>

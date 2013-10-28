@@ -1,0 +1,23 @@
+<div id="enlaces">
+  <%= link_to "Volver á lista de formatos", formatos_path %>
+</div>
+
+<div id="paxina">
+  <h2> Crear Novo Formato </h2>
+
+  <div id="datos">
+    <%= form_tag formatos_path do%>
+      <%= label_tag 'Nome'%>
+      <%= text_field_tag :nome%>
+      <%= label_tag 'Descrición'%>
+      <%= text_area_tag(:descricion, nil, :size => "70x5", :resize => "horizontal") %>
+      <%= label_tag 'Crearase un subformato para cada dispositivo escollido' %>
+      <% @dispositivosloxicos.each do |dispositivo| %>
+        <%= check_box_tag 'dispositivo[]', dispositivo.id %>
+        <%= dispositivo.relacionAspectoHorizontal %>:<%= dispositivo.relacionAspectoVertical %>
+      <% end %>
+      <br /><br />
+      <%= submit_tag "Crear formato"%>
+    <% end %>
+  </div>
+</div>

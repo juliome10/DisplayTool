@@ -1,0 +1,17 @@
+<%= form_for(@listareproducion) do |f| %>
+  <% if @listareproducion.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@listareproducion.errors.count, "error") %> prohibited this listareproducion from being saved:</h2>
+
+      <ul>
+      <% @listareproducion.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

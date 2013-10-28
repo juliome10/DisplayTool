@@ -1,0 +1,30 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @parametro %>
+  <%= link_to 'Volver ó listado de parámetros', parametros_path %>
+  <%= link_to 'Volver ó inicio', '/' %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+
+  <div id="datos">
+    <%= form_tag parametro_path(@parametro), :method => :put do%>
+      <%= label_tag 'Nome' %>
+      <%= text_field_tag :nome, @parametro.nome, :disabled => 'true' %>
+      <%= label_tag 'Valor' %>
+      <% if @parametro.variable.include?('fonte') %>
+        <%= select_tag :valor, options_for_select(@fontes, @parametro.valor) %>
+      <% elsif @parametro.variable.include?('alinadoHorizontal') %>
+        <%= select_tag :valor, options_for_select(@alinadosHorizontal, @parametro.valor) %>
+      <% elsif @parametro.variable.include?('alinadoVertical') %>
+        <%= select_tag :valor, options_for_select(@alinadosVertical, @parametro.valor) %>
+      <% else %>
+        <%= text_field_tag :valor, @parametro.valor %>
+      <% end %>
+      <%= label_tag 'Descrición' %>
+      <%= text_area_tag :descricion, @parametro.descricion, :size => '50x5', :resize => 'horizontal' %>
+      <br /><br />
+      <%= submit_tag 'Actualizar' %>
+    <% end %>
+  </div>
+</div>

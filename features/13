@@ -1,0 +1,23 @@
+# encoding: utf-8
+Feature: 13. Eliminación dun formato
+  Como usuario da aplicación
+  Quero poder eliminar un formato
+  Para poder desvinculalo cando non sexa necesario
+
+  Background: formatos que estan na base de datos[90m # 13.feature:8[0m
+    [32mGiven the following formatos exist:[90m           # step_definitions/formatos_steps.rb:3[0m[0m
+      | [32mnome      [0m[0m |[0m [32mdescricion                      [0m[0m |[0m
+      | [32mFormato Un[0m[0m |[0m [32mFormato cun título e unha imaxe.[0m[0m |[0m
+
+  Scenario: Eliminación dun formato[90m     # 13.feature:14[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m         # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mFormatos[0m[0m[32m"[90m            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEliminar[0m[0m[32m"[90m            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is no "Formato"[90m           # step_definitions/formatos_steps.rb:42[0m[0m
+    [32mAnd there is a notification[90m         # step_definitions/web_steps.rb:291[0m[0m
+
+1 scenario ([32m1 passed[0m)
+8 steps ([32m8 passed[0m)
+0m1.038s

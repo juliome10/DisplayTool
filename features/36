@@ -1,0 +1,44 @@
+# encoding: utf-8
+Feature: 36. Vídeos nas diapositivas con carga automática
+  Como usuario da aplicación
+  Quero que si unha diapositiva contén vídeos se carguen automáticamente
+  Para que non sexa necesario iniciar a reprodución manualmente
+
+  Background: datos almacenados na base de datos.[90m # 36.feature:8[0m
+    [32mGiven the following formatos exist:[90m           # step_definitions/formatos_steps.rb:3[0m[0m
+      | [32mnome      [0m[0m |[0m [32mdescricion                      [0m[0m |[0m
+      | [32mFormato Un[0m[0m |[0m [32mFormato cun título e unha imaxe.[0m[0m |[0m
+    [32mGiven the following campos exist:[90m             # step_definitions/campos_steps.rb:3[0m[0m
+      | [32mtipo [0m[0m |[0m [32msubtipo[0m[0m |[0m
+      | [32mVídeo[0m[0m |[0m [32mLocal  [0m[0m |[0m
+    [32mGiven the following dispositivoloxicos exist:[90m # step_definitions/dispositivoloxicos_steps.rb:3[0m[0m
+      | [32mrelacionAspectoHorizontal[0m[0m |[0m [32mrelacionAspectoVertical[0m[0m |[0m
+      | [32m16                       [0m[0m |[0m [32m9                      [0m[0m |[0m
+    [32mGiven the following parametros exist:[90m         # step_definitions/parametros_steps.rb:3[0m[0m
+      | [32mnome                        [0m[0m |[0m [32mvariable                [0m[0m |[0m [32mvalor        [0m[0m |[0m
+      | [32mAliñado horizontal do título[0m[0m |[0m [32mtitulo_alinadoHorizontal[0m[0m |[0m [32mCentrado     [0m[0m |[0m
+      | [32mAliñado vertical do título  [0m[0m |[0m [32mtitulo_alinadoVertical  [0m[0m |[0m [32mCentro       [0m[0m |[0m
+      | [32mCor da fonte do título      [0m[0m |[0m [32mtitulo_cor              [0m[0m |[0m [32m#ffffff      [0m[0m |[0m
+      | [32mFonte do título             [0m[0m |[0m [32mtitulo_fonte            [0m[0m |[0m [32mComic Sans MS[0m[0m |[0m
+      | [32mTamaño da fonte do título   [0m[0m |[0m [32mtitulo_tamano           [0m[0m |[0m [32m40px         [0m[0m |[0m
+    [32mGiven the following estilos exist:[90m            # step_definitions/estilos_steps.rb:3[0m[0m
+      | [32mid[0m[0m |[0m [32mnome     [0m[0m |[0m
+      | [32m1 [0m[0m |[0m [32mEstilo Un[0m[0m |[0m
+    [32mGiven the following diapositivas exist:[90m       # step_definitions/diapositivas_steps.rb:3[0m[0m
+      | [32mid[0m[0m |[0m [32mnome          [0m[0m |[0m [32mestilo_id[0m[0m |[0m [32murl                   [0m[0m |[0m
+      | [32m5 [0m[0m |[0m [32mDiapositiva Un[0m[0m |[0m [32m1        [0m[0m |[0m [32mpublic/contidos/5.html[0m[0m |[0m
+
+  Scenario: Vídeos nas diapositivas con carga automática.[90m                                                                  # 36.feature:37[0m
+    [32mGiven "Formato" called "[32m[1mFormato Un[0m[0m[32m" has "[32m[1mLocal[0m[0m[32m"[90m                                                                        # step_definitions/formatos_steps.rb:10[0m[0m
+    [32mGiven "Formato" called "[32m[1mFormato Un[0m[0m[32m" has "Subformato" for "Dispositivo" [32m[1m16[0m[0m[32m:[32m[1m9[0m[0m[32m[90m                                            # step_definitions/formatos_steps.rb:16[0m[0m
+    [32mGiven "Diapositiva" called "[32m[1mDiapositiva Un[0m[0m[32m" belongs to "Formato" called "[32m[1mFormato Un[0m[0m[32m" and has "[32m[1mtrailer.webm[0m[0m[32m" as "[32m[1mLocal[0m[0m[32m"[90m # step_definitions/diapositivas_steps.rb:10[0m[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                                                            # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mDiapositivas[0m[0m[32m"[90m                                                                                           # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Diapositivas" page[0m[0m[32m[90m                                                                                # step_definitions/web_steps.rb:255[0m[0m
+    [32mWhen I follow "[32m[1mpublic/contidos/5.html[0m[0m[32m"[90m                                                                                 # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mdiapositiva called "Diapositiva Un"[0m[0m[32m[90m                                                                # step_definitions/web_steps.rb:255[0m[0m
+    [32mAnd video has autoplay property[90m                                                                                        # step_definitions/diapositivas_steps.rb:36[0m[0m
+
+1 scenario ([32m1 passed[0m)
+15 steps ([32m15 passed[0m)
+0m1.222s

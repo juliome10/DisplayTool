@@ -1,0 +1,95 @@
+<div id="enlaces">
+  <%= link_to 'Volver á lista de reprodución', listareproducion_path(@listareproducion) %>
+  <%= link_to 'Volver ó listado', listareproducions_path %>
+</div>
+
+<div id="paxina">
+
+  <h2> Diapositivas contidas </h2>
+  <div id="datos">
+    <% if @listareproducion.diapositivas.empty? %>
+      <p> A lista de reprodución non contén diapositivas </p>
+    <%  else %>
+      <table id="tabla">
+        <tr>
+          <th>Id</th>
+          <th>Nome</th>
+          <th>Formato</th>
+          <th>Dispositivo</th>
+          <th>Estilo</th>
+          <th>Url</th>
+          <th>Detalles</th>
+          <th>Orde</th>
+          <th>Factor Tempo</th>
+        </tr>
+        <% @listareproducion_diapositivas.zip @listareproducion_rexistros %>
+        <% @listareproducion_diapositivas.zip @listareproducion_formatos %>
+        <% @listareproducion_diapositivas.zip(@listareproducion_rexistros, @listareproducion_formatos).each do |diapositiva,rexistro,formato| %>
+        <tr>
+          <td><%= diapositiva.id %></td>
+          <td><%= diapositiva.nome %></td>
+          <td><%= formato.nome %></td>
+          <td><%= @dispositivo.relacionAspectoHorizontal %>:<%= @dispositivo.relacionAspectoVertical %></td>
+          <td><%= diapositiva.estilo.nome %></td>
+          <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+          <td>
+            <%= link_to 'Amosar', diapositiva_path(diapositiva) %>
+            <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+          </td>
+          <td><%= rexistro.orde %></td>
+          <td><%= rexistro.factorTempo %></td>
+        </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+
+  <h2> Ingresar diapositiva </h2>
+    <div id="datos">
+
+      <% if @diapositivas.empty? %>
+        <p> Non existen diapositivas para poder engadir.</p>
+      <% else %>
+        <table id="tabla">
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Formato</th>
+              <th>Dispositivo</th>
+              <th>Estilo</th>
+              <th>Url</th>
+              <th>Detalles</th>
+            </tr>
+            <% @diapositivas.zip @diapositivas_formatos %>
+            <% @diapositivas.zip(@diapositivas_formatos).each_with_index do |(diapositiva,formato),i| %>
+            <% if !@dispositivos.nil?%>
+              <% @dispositivo = @dispositivos[i] %>
+            <% end %>
+            <tr>
+              <td><%= diapositiva.id %></td>
+              <td><%= diapositiva.nome %></td>
+              <td><%= formato.nome %></td>
+              <td><%= @dispositivo.relacionAspectoHorizontal %>:<%= @dispositivo.relacionAspectoVertical %></td>
+              <td><%= diapositiva.estilo.nome %></td>
+              <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+              <td>
+                <%= link_to 'Amosar', diapositiva_path(diapositiva) %>
+                <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+              </td>
+            </tr>
+            <% end %>
+          </table>
+        
+        <%= form_tag diapositivas_listareproducions_path do%>
+         <h3> Escolla unha diapositiva </h3>
+            <%= label_tag 'Id' %>
+            <%= select_tag :diapositiva, options_for_select(@opcionsSelect) %>
+            <%= label_tag 'Factor tempo' %>
+            <%= text_field_tag :factorTempoDiapositiva, '', :size => 4 %>
+            <%= hidden_field_tag :id, @listareproducion.id %>
+            <br /><br />
+            <%= submit_tag 'Engadir diapositiva' %>
+          <% end %>
+      </div>
+   <% end %>
+</div>

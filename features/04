@@ -1,0 +1,20 @@
+# encoding: utf-8
+Feature: 4. Creación dun formato
+  Como usuario da aplicación
+  Quero poder crear un formato,
+  Para poder contar con unha nova posibilidade de deseño
+
+  Scenario: Creación dun formato.[90m                                                  # 04.feature:8[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                    # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mFormatos[0m[0m[32m"[90m                                                       # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m                                            # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEngadir un novo formato[0m[0m[32m"[90m                                        # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for create a new "Formato"[0m[0m[32m[90m                            # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I fill in "[32m[1mnome[0m[0m[32m" with "[32m[1mFormato Novo[0m[0m[32m"[90m                                      # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mdescricion[0m[0m[32m" with "[32m[1mEste é un novo formato.[0m[0m[32m"[90m                      # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mCrear formato[0m[0m[32m"[90m                                                    # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1mpage for view details from "Formato" called "Formato Novo"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+
+1 scenario ([32m1 passed[0m)
+9 steps ([32m9 passed[0m)
+0m1.147s

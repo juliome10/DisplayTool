@@ -1,0 +1,23 @@
+development:
+  adapter: mysql2
+  database: TFG_dev
+  username: root
+  password: toor
+  host: localhost
+
+production:
+  adapter: mysql2
+  database: TFG_pro
+  username: root
+  password: toor
+  host: localhost
+
+test: &test
+  adapter: mysql2
+  database: TFG_test
+  username: root
+  password: toor
+  host: localhost
+
+cucumber:
+  <<: *test

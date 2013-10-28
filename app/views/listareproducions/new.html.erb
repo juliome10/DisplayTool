@@ -1,0 +1,73 @@
+<div id="enlaces">
+  <%= link_to 'Volver á listaxe', listareproducions_path %>
+</div>
+
+<div id="paxina">
+
+  <% if !params[:dispositivo] %>
+  <h2> Dispositivos dispoñibles </h2>
+  <div id="datos">
+    <p> Selecione o dispositivo para o que se creará a lista de reprodución.</p>
+    <%= form_tag new_listareproducion_path, :method => :get do%>
+    <ul>
+      <% @dispositivoloxicos.each do |dispositivo| %>
+        <li>
+        <%= radio_button_tag 'dispositivo', dispositivo.id %>
+        (<%= dispositivo.relacionAspectoHorizontal %>:<%= dispositivo.relacionAspectoVertical %>)
+        </li>
+      <% end %>
+    </ul>
+      <%= submit_tag "Selecionar"%>
+    <% end %>
+  </div>
+
+  <% else %>
+    <h2> Diapositivas posibles </h2>
+    <div id ="datos">
+    <% if @diapositivas.empty? %>
+        <p> Non existen diapositivas para dito dispositivo.</p>
+    <% else %>
+      <table id="tabla">
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Formato</th>
+              <th>Dispositivo</th>
+              <th>Estilo</th>
+              <th>Url</th>
+              <th></th>
+            </tr>
+            <% @diapositivas.zip @diapositivas_formatos %>
+            <% @diapositivas.zip(@diapositivas_formatos).each do |diapositiva,formato| %>
+            <tr>
+              <td><%= diapositiva.id %> </td>
+              <td><%= diapositiva.nome %></td>
+              <td><%= formato.nome %></td>
+              <td><%= @dispositivo.relacionAspectoHorizontal %>:<%= @dispositivo.relacionAspectoVertical %></td>
+              <td><%= diapositiva.estilo.nome %></td>
+              <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+              <td><%= link_to 'Amosar', diapositiva_path(diapositiva) %></td>
+            </tr>
+            <% end %>
+          </table>
+      </div>
+  
+      <h2> Creando a lista </h2>
+        <div id="datos">
+          <%= form_tag listareproducions_path do%>
+          <h3> Datos </h3>
+            <%= label_tag 'Nome' %>
+            <%= text_field_tag :nome, '' %>
+            <h3> Escolla a primeira diapositiva </h3>
+              <%= label_tag 'Id' %>
+              <%= select_tag :diapositiva, options_for_select(@opcionsSelect) %>
+              <%= label_tag 'Factor tempo' %>
+              <%= text_field_tag :factorTempoDiapositiva, '', :size => 4 %>
+              <%= hidden_field_tag :id, @listareproducion.id %>
+              <br /><br />
+              <%= submit_tag 'Engadir diapositiva' %>
+            <% end %>
+        </div>
+      <% end %>
+  <% end %>
+</div>

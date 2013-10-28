@@ -1,0 +1,27 @@
+# encoding: utf-8
+Feature: 17. Modificación do fondo dun estilo
+  Como usuario da aplicación
+  Quero poder modificar o fondo dun estilo
+  Para que este cumpla coas novas necesidades
+
+  Background: datos almacenados na base de datos[90m # 17.feature:8[0m
+    [32mGiven the following estilos exist:[90m           # step_definitions/estilos_steps.rb:3[0m[0m
+      | [32mnome     [0m[0m |[0m [32mbackground_image[0m[0m |[0m
+      | [32mEstilo Un[0m[0m |[0m [32mproba.jpg       [0m[0m |[0m
+
+  Scenario: Modificación do fondo dun estilo[90m                                    # 17.feature:14[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                 # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mEstilos[0m[0m[32m"[90m                                                     # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Estilos" page[0m[0m[32m[90m                                          # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                      # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Estilo" called "Estilo Un"[0m[0m[32m[90m               # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd the "[32m[1mbackground_image[0m[0m[32m" field should contain "[32m[1mproba.jpg[0m[0m[32m"[90m                 # step_definitions/web_steps.rb:161[0m[0m
+    [32mWhen I fill in "[32m[1mbackground_image[0m[0m[32m" with "[32m[1mprobaModificado.jpg[0m[0m[32m"[90m                # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press the [32m[1msecond[0m[0m[32m "[32m[1mActualizar datos[0m[0m[32m" button[90m                            # step_definitions/web_steps.rb:62[0m[0m
+    [32mThen I should be on [32m[1mpage for view details from "Estilo" called "Estilo Un"[0m[0m[32m[90m  # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                                                 # step_definitions/web_steps.rb:291[0m[0m
+    [32mAnd estilo called "[32m[1mEstilo Un[0m[0m[32m" has "[32m[1mprobaModificado.jpg[0m[0m[32m" as background image[90m # step_definitions/estilos_steps.rb:29[0m[0m
+
+1 scenario ([32m1 passed[0m)
+12 steps ([32m12 passed[0m)
+0m1.171s

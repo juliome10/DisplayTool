@@ -1,0 +1,27 @@
+# encoding: utf-8
+Feature: 12. Creación de subformatos para un formato
+  Como usuario da aplicación
+  Quero poder engadir subformatos a un formato
+  Para poder amplicar as adaptacións dun formato a novos dispositivos
+
+  Background: datos almacenados na base de datos[90m  # 12.feature:8[0m
+    [32mGiven the following formatos exist:[90m           # step_definitions/formatos_steps.rb:3[0m[0m
+      | [32mnome      [0m[0m |[0m [32mdescricion                      [0m[0m |[0m
+      | [32mFormato Un[0m[0m |[0m [32mFormato cun título e unha imaxe.[0m[0m |[0m
+    [32mGiven the following dispositivoloxicos exist:[90m # step_definitions/dispositivoloxicos_steps.rb:3[0m[0m
+      | [32mrelacionAspectoHorizontal[0m[0m |[0m [32mrelacionAspectoVertical[0m[0m |[0m
+      | [32m16                       [0m[0m |[0m [32m9                      [0m[0m |[0m
+
+  Scenario: Creación de subformatos para un formato[90m                 # 12.feature:18[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                     # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mFormatos[0m[0m[32m"[90m                                        # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m                             # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                          # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Formato" called "Formato Un"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I check "[32m[1mdispositivo_[0m[0m[32m"[90m                                     # step_definitions/web_steps.rb:103[0m[0m
+    [32mAnd I press "[32m[1mCrear Subformatos[0m[0m[32m"[90m                                 # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen "Formato" called "[32m[1mFormato Un[0m[0m[32m" has a "Subformato"[90m           # step_definitions/formatos_steps.rb:37[0m[0m
+
+1 scenario ([32m1 passed[0m)
+10 steps ([32m10 passed[0m)
+0m1.187s

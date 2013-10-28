@@ -1,0 +1,35 @@
+<div id="subida">
+  <h2> Subir contido</h2>
+    <p>Selecione un ficheiro</p>
+    <%= form_tag({:action => 'uploadFile'}, :multipart => true) do %>
+      <%= file_field 'upload', 'datafile' %>
+      <br /><br />
+      <%= submit_tag "Cargar" %>
+    <% end %>
+</div>
+
+<div id="enlaces2">
+    <p><%= link_to 'Volver ó inicio', '/' %></p>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxinaContidos">
+
+  <h2> Imaxes </h2>
+  <div id="datos">
+    <%  @imaxes.each do |imaxe| %>
+      <%= image_tag (imaxe.gsub("app/assets/images/", "")), :size => '100x100' %>
+    <% end %>
+  </div>
+
+  <h2> Vídeos </h2>
+  <div id="datos">
+    <%  @videos.each do |video| %>
+      <%= video_tag(video.gsub("public/videos/", ""), :size => "120x120", :controls => true) %> </video>
+
+  <% end %>
+  </div>
+</div>

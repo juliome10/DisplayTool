@@ -1,0 +1,52 @@
+<div id="enlaces">
+  <%= link_to 'Nova lista de reprodución', new_listareproducion_path %>
+  <%= link_to 'Volver ó inicio', '/' %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+
+<div id="paxina">
+
+  <h2> Listaxe </h2>
+  <div id="datos">
+  <% if @listareproducions.empty? %>
+      <p> Non existen listas de reprodución! </p>
+  <% else %>
+    <table id="tabla">
+      <tr>
+        <th>Nome</th>
+        <th>Tipo dispositivo</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    <% @listareproducions.zip @dispositivos %>
+    <% @listareproducions.zip(@dispositivos).each do |listareproducion,dispositivo| %>
+      <tr>
+        <td><%= listareproducion.nome %></td>
+        <td><%  if !dispositivo.nil? %>
+              <%= dispositivo.relacionAspectoHorizontal %>:<%= dispositivo.relacionAspectoVertical %>
+            <% else %>
+              Sen asignar
+            <% end %>
+        </td>
+        <td>
+          <%= link_to 'Amosar', listareproducion %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Editar', edit_listareproducion_path(listareproducion) %>
+          <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Eliminar', listareproducion, method: :delete, data: { confirm: 'Seguro?' } %>
+          <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+
+<h1> Crear Novo Formato </h1>
+
+<%= form_tag formatos_path do%>
+	<%= label_tag 'Nome'%>
+	<%= text_field_tag :nome%>
+	<%= label_tag 'Descrición'%>
+	<%= text_field_tag :descricion%>	
+	<br><br>
+	<%= submit_tag "Gardar formato"%>
+<% end %>
+<br><br>
+<%= link_to "Volver á lista de formatos", formatos_path %>

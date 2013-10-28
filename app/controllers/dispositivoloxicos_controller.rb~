@@ -1,0 +1,69 @@
+class DispositivoloxicosController < ApplicationController
+  # GET /dispositivo_loxicos
+  # GET /dispositivo_loxicos.json
+  def index
+    	@dispositivoloxicos = Dispositivoloxico.all
+  end
+
+  # GET /dispositivo_loxicos/1
+  # GET /dispositivo_loxicos/1.json
+  def show
+    @dispositivoloxico = Dispositivoloxico.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @dispositivoloxico }
+    end
+  end
+
+  # GET /dispositivo_loxicos/new
+  # GET /dispositivo_loxicos/new.json
+  def new
+    @dispositivoloxico = Dispositivoloxico.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @dispositivoloxico }
+    end
+  end
+
+  # GET /dispositivo_loxicos/1/edit
+  def edit
+    @dispositivo_loxico = Dispositivoloxico.find(params[:id])
+  end
+
+  # POST /dispositivo_loxicos
+  # POST /dispositivo_loxicos.json
+  def create
+    @dispositivoloxico = Dispositivoloxico.create!(:relacionAspectoHorizontal => params[:relacionAspectoHorizontal], :relacionAspectoVertical => params[:relacionAspectoVertical], :riqueza =>  params[:riqueza])
+    redirect_to :controller => "dispositivoloxicos", :action => "index"
+  end
+
+  # PUT /dispositivo_loxicos/1
+  # PUT /dispositivo_loxicos/1.json
+  def update
+    @dispositivoloxico = Dispositivoloxico.find(params[:id])
+
+    respond_to do |format|
+      if @dispositivoloxico.update_attributes(params[:dispositivoloxico])
+        format.html { redirect_to @dispositivoloxico, notice: 'Dispositivo loxico was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @dispositivoloxico.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /dispositivo_loxicos/1
+  # DELETE /dispositivo_loxicos/1.json
+  def destroy
+    @dispositivoloxico = Dispositivoloxico.find(params[:id])
+    @dispositivoloxico.destroy
+
+    respond_to do |format|
+      format.html { redirect_to dispositivoloxicos_url }
+      format.json { head :no_content }
+    end
+  end
+end

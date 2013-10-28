@@ -1,0 +1,80 @@
+class SubformatosController < ApplicationController
+
+  def index
+    #No caso de que se queiran consultar todas as tuplas sen filtro de formato
+    if params[:idFormato].nil?
+      @subformatos = Subformato.all
+    else
+      @subformatos = Subformato.find_all_by_formato_id(params[:idFormato], :order => "dispositivoloxico_id")
+      @relacions = Subformato.reflect_on_all_associations(:belongs_to)
+    end
+  end
+
+  def show
+    @subformato = Subformato.find_by_formato_id(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @familia_formato }
+    end
+  end
+
+  def new
+	session[:idFormato] = params[:idFormato]
+	create()
+  end
+
+  def edit
+    @subformato = Subformato.find(params[:id])
+  end
+
+  def create
+      #Necesito o id do formato
+      #@idFormato = params[:idFormato]
+      @idFormato = session[:idFormato]
+      #Rails.logger.debug("idFormato = #{@idFormato}")
+
+      #Necesito todos os dispositivos lóxicos existentes
+      #@dispositivosLoxicos = session[:dispositivosLoxicos]
+      @dispositivosloxicos = Dispositivoloxico.all
+      #Rails.logger.debug("dispositivosLoxicos = #{@dispositivosLoxicos}")
+
+      #Necesito todos os campos do formato
+      #@campos = session[:campos]
+      @campos = Campo.find_all_by_formato_id(@idFormato)
+      Rails.logger.debug("campos = #{@campos}")
+	#Crear tantas entradas como dispositivos
+	@dispositivosloxicos.each do |dispositivoloxico|
+    	#Crear tantas entradas como campos
+	@campos.each do |campo|
+          #Comprobamos si xa existía unha familia formato-campo-dispositivo
+	  @subformato = Subformato.find_by_sql("SELECT * FROM subformatos WHERE campo_id = " + campo.id.to_s + " AND dispositivoloxico_id = " + dispositivoloxico.id.to_s + " AND formato_id = " + @idFormato.to_s + ";")	
+      #Rails.logger.debug("subformato = #{@subformato}")
+
+	  #Si non existía, creámola
+	  if @subformato.empty?
+            @subformato = Subformato.create!(:formato_id => params[:idFormato], :campo_id => campo.id, :dispositivoloxicos_id => dispositivoloxico.id)
+          end	
+        end
+      end
+
+      #Eliminamos os datos da sesión
+      #session.delete :campos
+      #session.delete :dispositivosLoxicos
+      session.delete :idFormato
+      redirect_to :controller => "subformatos", :action => "index", :idFormato => params[:idFormato]
+end
+
+  def update
+    @subformato = Subformato.find(params[:id])
+    @subformato.update_attributes!(:posicionX => params[:posicionX], :posicionY => params[:posicionY], :lonxitudeX => params[:lonxitudeX], :lonxitudeY => params[:lonxitudeY])
+    redirect_to :controller => "subformatos", :action => "index", :idFormato => @subformato.formato_id
+  end
+
+  def destroy
+    @subformato = Subformato.find(params[:id])
+    @idFormato = @subformato.formato_id
+    @subformato.destroy
+    redirect_to :controller => "subformatos", :action => "index", :idFormato => @idFormato
+  end
+end

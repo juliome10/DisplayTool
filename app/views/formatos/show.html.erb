@@ -1,0 +1,53 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_formato_path(@formato) %>
+  <%= link_to 'Volver á listaxe de formatos', formatos_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Nome: </b><%= @formato.nome %></p>
+    <p><b>Descrición: </b><%= @formato.descricion %></p>
+  </div>
+
+  <h2> Subformatos existentes </h2>
+  <div id="datos">
+    <%  if @formato.subformatos.empty? %>
+      <p>O formato non posúe subformatos.</p>
+    <%  else %>
+      <% @formato.subformatos.each do |subformato| %>
+        <p> Subformato para dispositivo <%= subformato.dispositivoloxico.relacionAspectoHorizontal %>:<%= subformato.dispositivoloxico.relacionAspectoVertical %>
+        </p>
+        <p>
+          <%= link_to 'Consultar', subformato %>
+          <%= image_tag 'info.png', :size => '20x20', :style => 'vertical-align: top;' %>
+        </p>
+      <% end %>
+    <%  end %>
+  </div>
+
+  <h2> Campos </h2>
+  <div id="datos">
+    <% if @formato.campos.empty? then %>
+      <p>Non existen campos!</p>
+    <% else %>
+      <table id="tabla">
+        <tr>
+          <th> Tipo </th>
+          <th> Subtipo </th>
+        </tr>
+        <% @formato.campos.each do |campo| %>
+        <tr>
+          <td> <%= campo.tipo %> </td>
+          <td> <%= campo.subtipo %> </td>
+        </tr>
+        <% end %>
+    </table>
+    <% end %>
+  </div>
+</div>

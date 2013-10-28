@@ -1,0 +1,15 @@
+<h1>Novo Dispositivo lóxico</h1>
+
+<%= form_tag dispositivoloxicos_path do %>
+	<%= label_tag 'Relación de Aspecto Horizontal'%>
+	<%= text_field_tag :relacionAspectoHorizontal %>
+	<%= label_tag 'Relación de Aspecto Vertical' %>
+	<%= text_field_tag :relacionAspectoVertical %>
+	<%= label_tag 'Riqueza' %>
+	<%= select_tag :riqueza, "<option>Alta</option><option>Media</option><option>Baixa</option>".html_safe %>
+	<br><br>
+	<%= submit_tag "Gardar dispositivo" %>
+<% end %>
+
+<br><br>
+<%= link_to "Volver á xestión de dispositivos lóxicos", dispositivoloxicos_path %>

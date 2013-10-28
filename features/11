@@ -1,0 +1,37 @@
+# encoding: utf-8
+Feature: 11. Eliminación de campos dun formato
+  Como usuario da aplicación
+  Quero poder eliminar campos dun formato
+  Para poder prescindir de contidos que o forman
+
+  Background: datos almacenados na base de datos[90m # 11.feature:8[0m
+    [32mGiven the following formatos exist:[90m          # step_definitions/formatos_steps.rb:3[0m[0m
+      | [32mnome      [0m[0m |[0m [32mdescricion                      [0m[0m |[0m
+      | [32mFormato Un[0m[0m |[0m [32mFormato cun título e unha imaxe.[0m[0m |[0m
+    [32mGiven the following campos exist:[90m            # step_definitions/campos_steps.rb:3[0m[0m
+      | [32mtipo [0m[0m |[0m [32msubtipo   [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mTítulo    [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mSubtítulo [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mResumo    [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mDescrición[0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mPé        [0m[0m |[0m
+      | [32mImaxe[0m[0m |[0m [32mLogo      [0m[0m |[0m
+      | [32mImaxe[0m[0m |[0m [32mFoto      [0m[0m |[0m
+      | [32mVídeo[0m[0m |[0m [32mLocal     [0m[0m |[0m
+      | [32mVídeo[0m[0m |[0m [32mEmbebido  [0m[0m |[0m
+
+  Scenario: Eliminación de campos dun formato.[90m                          # 11.feature:26[0m
+    [32mGiven "Formato" called "[32m[1mFormato Un[0m[0m[32m" has "[32m[1mTítulo[0m[0m[32m"[90m                    # step_definitions/formatos_steps.rb:10[0m[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                         # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mFormatos[0m[0m[32m"[90m                                            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m                                 # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                              # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Formato" called "Formato Un"[0m[0m[32m[90m     # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mXestionar campos[0m[0m[32m"[90m                                    # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Campos" page for "Formato" called "Formato Un"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I press "[32m[1mEliminar[0m[0m[32m"[90m                                             # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen "Formato" called "[32m[1mFormato Un[0m[0m[32m" has no "Campo"[90m                   # step_definitions/formatos_steps.rb:32[0m[0m
+
+1 scenario ([32m1 passed[0m)
+12 steps ([32m12 passed[0m)
+0m1.252s

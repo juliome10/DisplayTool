@@ -1,0 +1,96 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @listareproducion %>
+  <%= link_to 'Volver á listaxe', listareproducions_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <%= form_tag listareproducion_path(@listareproducion), :method => :put do%>
+      <%= label_tag 'Nome' %>
+      <%= text_field_tag :nome, @listareproducion.nome %>
+      <p><b>Url comezo: </b><%= link_to @listareproducion.urlComezo, @listareproducion.urlComezo, :target => '_blank' %></p>
+      <%= submit_tag "Actualizar datos" %>
+    <% end %>
+  </div>
+
+  <h2> Diapositivas contidas </h2>
+  <div id="datos">
+    <% if @listareproducion.diapositivas.empty? %>
+      <p> A lista de reprodución non contén diapositivas </p>
+    <%  else %>
+      <table id="tabla">
+        <tr>
+          <th>Nome</th>
+          <th>Formato</th>
+          <th>Dispositivo</th>
+          <th>Estilo</th>
+          <th>Url</th>
+          <th>Detalles</th>
+          <th>Orde</th>
+          <th>Factor tempo</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <% @listareproducion_diapositivas.zip @listareproducion_rexistros %>
+        <% @listareproducion_diapositivas.zip @listareproducion_formatos %>
+        <% @listareproducion_diapositivas.zip(@listareproducion_rexistros,@listareproducion_formatos).each_with_index do |(diapositiva,rexistro,formato),i| %>
+        <tr>
+          <td><%= diapositiva.nome %></td>
+          <td><%= formato.nome %></td>
+          <td><%= @dispositivo.relacionAspectoHorizontal %>:<%= @dispositivo.relacionAspectoVertical %></td>
+          <td><%= diapositiva.estilo.nome %></td>
+          <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+          <td>
+            <%= link_to 'Amosar', diapositiva_path(diapositiva) %>
+            <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+          </td>
+          <td><%= rexistro.orde %></td>
+          <td><%= rexistro.factorTempo %></td>
+          <td>
+            <% if @listareproducion_diapositivas.length > 1 %>
+              <% if i == 0 %>
+                <%= form_tag diapositivas_listareproducion_path(rexistro), :method => :put do%>
+                  <%= hidden_field_tag :accion, 'baixar' %>
+                  <%= image_submit_tag 'abajo.gif', :id => 'imaxeBaixar' %>
+                <% end %>
+              <% elsif i == @listareproducion_diapositivas.length-1 %>
+                <%= form_tag diapositivas_listareproducion_path(rexistro), :method => :put do%>
+                  <%= hidden_field_tag :accion, 'subir' %>
+                  <%= image_submit_tag 'arriba.gif', :id => 'imaxeSubir'%>
+                <% end %>
+              <% else %>
+                <%= form_tag diapositivas_listareproducion_path(rexistro), :method => :put do%>
+                    <%= hidden_field_tag :accion, 'subir' %>
+                    <%= image_submit_tag 'arriba.gif', :id => 'imaxeSubir'%>
+                <% end %>
+                <%= form_tag diapositivas_listareproducion_path(rexistro), :method => :put do%>
+                    <%= hidden_field_tag :accion, 'baixar' %>
+                    <%= image_submit_tag 'abajo.gif', :id => 'imaxeBaixar' %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Editar', edit_diapositivas_listareproducion_path(rexistro) %>
+            <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+          </td>
+          <td>
+            <%= link_to 'Eliminar', rexistro, method: :delete, data: { confirm: 'Seguro?'} %>
+            <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+          </td>
+        </tr>
+        <% end %>
+      </table>
+    <% end %>
+    <p>
+      <%= link_to 'Engadir diapositiva á lista', new_diapositivas_listareproducion_path(:lista => @listareproducion.id)%>
+    </p>
+  </div>
+</div>

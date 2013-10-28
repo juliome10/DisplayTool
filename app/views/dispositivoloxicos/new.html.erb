@@ -1,0 +1,18 @@
+<div id="enlaces">
+  <%= link_to "Volver á xestión de dispositivos lóxicos", dispositivoloxicos_path %>
+</div>
+
+<div id="paxina">
+  <h2>Novo Dispositivo lóxico</h2>
+
+  <div id="datos">
+    <%= form_tag dispositivoloxicos_path do %>
+      <%= label_tag 'Relación de Aspecto Horizontal'%>
+      <%= text_field_tag :relacionAspectoHorizontal %>
+      <%= label_tag 'Relación de Aspecto Vertical' %>
+      <%= text_field_tag :relacionAspectoVertical %>
+      <br /><br />
+      <%= submit_tag "Gardar dispositivo" %>
+    <% end %>
+  </div>
+</div>

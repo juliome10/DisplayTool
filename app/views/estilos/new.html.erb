@@ -1,0 +1,57 @@
+<div id="enlaces">
+  <%= link_to 'Volver ó listado de estilos', estilos_path %>
+</div>
+
+<div id="paxina">
+  <h2>Novo estilo</h2>
+  <div id="datosConGaleria">
+  <%=  form_tag estilos_path do %>
+    <h3> Datos </h3>
+      <%= label_tag 'Nome' %>
+      <%= text_field_tag :nome, "" %>
+      <%= label_tag 'Descrición' %>
+      <%= text_area_tag :descricion, "", :size => '70x5', :resize => "horizontal" %>
+    <h3> Fondo </h3>
+      <%= label_tag 'Cor de fondo' %>
+      <%= text_field_tag :background_color, "#123456", :size => '7' %>
+      <div id="selectorColor">
+        <h4>Selector de Cores</h4>
+        <div id="colorpicker"></div>
+      </div>
+      <div id="selecionContido">
+        <%= label_tag 'Imaxe de fondo' %>
+        <p id="cargarGaleria">
+          Escoller da galería
+          <%= image_tag 'galeria.png', :size => '20x20', :style => 'vertical-align: top;' %>
+        </p>
+        <div id="galeria">
+            <% @imaxes.each do |imaxe| %>
+              <%= image_tag(imaxe.gsub("app/assets/images/", ""), :size => '100x100')%>
+            <% end %>
+        </div>
+        <%= text_field_tag :background_image, '', :size => 50, :id => 'pathContido' %>
+        <p id="explicacion">
+          Tam&eacute;n pode facilitar unha ligaz&oacute;n externa.
+        </p>
+      </div>
+      <div id="propiedades">
+        <br />
+        <%= label_tag :posicion, 'Posición', :id => 'background_position_label'%>
+        <%= select_tag :background_position, options_for_select(@background_position_options), :id => 'background_position' %>
+          <%= text_field_tag :background_position_x, '', :size => '3', :id => 'background_position_x', :placeholder => 'x' %>
+          <%= text_field_tag :background_position_y, '', :size => '3', :id => 'background_position_y', :placeholder => 'y' %>
+        <br /><br />
+        <%= label_tag :repeticion, 'Repetición', :id => 'background_repeat_label'%>
+        <%= select_tag :background_repeat, options_for_select(@background_repeat_options), :id => 'background_repeat' %>
+        <br /><br />
+        <%= label_tag :tamano, 'Tamaño', :id => 'background_size_label' %>
+        <%= select_tag :background_size, options_for_select(@background_size_options), :id => 'background_size' %>
+          <%= text_field_tag :background_size_x, '', :size => '3', :id => 'background_size_x', :placeholder => 'x' %>
+          <%= text_field_tag :background_size_y, '', :size => '3', :id => 'background_size_y', :placeholder => 'y' %>
+          <%= text_field_tag :background_size_val, '', :size => '5', :id => 'background_size_val', :placeholder => 'valor' %>
+      </div>
+      <br /><br />
+      <%= submit_tag 'Crear estilo' %>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_estilo_path(@estilo) %>
+  <%= link_to 'Volver ó listado de estilos', estilos_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Nome: </b><%= @estilo.nome %></p>
+    <p><b>Descrición: </b><%= @estilo.descricion %></p>
+
+    <% if !@estilo.background_color.nil? && @estilo.background_color.length > 0 %>
+      <p><b>Cor de fondo: </b><%= text_field_tag :background_color, @estilo.background_color, :size => '7', :style => 'background-color:' + @estilo.background_color + ";" %></p>
+    <% end %>
+
+    <% if !@estilo.background_image.nil? && @estilo.background_image.length > 0%>
+      <p><b>Imaxe de fondo: </b></p>
+      <%= image_tag @estilo.background_image %>
+      <% if !@estilo.background_position.nil? && @estilo.background_position.length > 0 %>
+      <p><b>Posición: </b>
+        <% if @estilo.background_position == 'Posicion X Posicion Y' %>
+          <%= @estilo.background_position_x + "px " %><%= @estilo.background_position_y + "px"%>
+        <% elsif @estilo.background_position == '%x %y' %>
+          <%= @estilo.background_position_x + "% " %><%= @estilo.background_position_y + "%" %>
+        <% else %>
+          <%= @estilo.background_position %>
+        <% end %>
+      </p>
+      <% end %>
+
+      <% if !@estilo.background_repeat.nil? && @estilo.background_repeat.length > 0 %>
+      <p><b>Repetición: </b><%= @estilo.background_repeat %></p>
+      <% end %>
+
+      <% if !@estilo.background_size.nil? && @estilo.background_size.length > 0%>
+      <p><b>Tamaño: </b>
+        <% if @estilo.background_size == 'X Pixels Y Pixels' %>
+            <%= @estilo.background_size_x + "px " %><%= @estilo.background_size_y + "px"%>
+          <% elsif @estilo.background_size == '%x %y' %>
+            <%= @estilo.background_size_x + "% " %><%= @estilo.background_size_y + "%" %>
+          <% elsif @estilo.background_size == 'Pixels' %>
+            <%= @estilo.background_size_val + "px" %>
+          <% elsif @estilo.background_size == 'Porcentaxe' %>
+            <%= @estilo.background_size_val + "%" %>
+          <% else %>
+            <%= @estilo.background_size %>
+          <% end %>
+        </p>
+      <% end %>
+    <% end %>
+  </div>
+
+  <h2> Propiedades dos campos </h2>
+  <div id="datos">
+    <table id="tabla">
+      <tr>
+        <th> Tipo </th>
+        <th> Subtipo </th>
+        <th> Fonte</th>
+        <th> Cor </th>
+        <th> Tamaño </th>
+        <th> Aliñado Horizontal </th>
+        <th> Aliñado Vertical </th>
+      </tr>
+      <% @estilo.campos.zip @valores %>
+      <% @estilo.campos.zip(@valores).each do |campo,rexistro| %>
+        <tr>
+          <td> <%= campo.tipo %> </td>
+          <td> <%= campo.subtipo %> </td>
+          <td> <%= rexistro.fonte %></td>
+          <td> <%= rexistro.tamano %></td>
+          <td> <%= rexistro.cor %></td>
+          <td> <%= rexistro.alinadoHorizontal %></td>
+          <td> <%= rexistro.alinadoVertical %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

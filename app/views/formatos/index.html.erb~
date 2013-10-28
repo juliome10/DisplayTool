@@ -1,0 +1,28 @@
+<% if flash[:notice] %>
+    <div id="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<h1> Listado de Formatos </h1>
+ 
+<table id=formatos>
+	<tr>
+		<th> Id </th>
+		<th> Nome </th>
+		<th> </th>
+                <th> </th>
+                <th> </th>
+	</tr>
+<% @formatos.each do |formato| %>
+	<tr>
+		<td> <%= formato.id %> </td>
+                <td> <%= formato.nome %> </td>
+		<td> <%= link_to "Ver", {:controller => "formatos", :action => "show", :id => formato.id}, :method => :get %> </td>
+                <td> <%= button_to "Editar", {:controller => "formatos", :action => "edit", :id => formato.id}, :method => :get %> </td>
+                <td> <%= button_to "Eliminar", {:controller => "formatos", :action => "destroy", :id => formato.id}, :method => :delete %> </td>
+	</tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to "Engadir un novo formato", new_formato_path %>

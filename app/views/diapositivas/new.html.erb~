@@ -1,0 +1,73 @@
+<h1>Nova diapositiva</h1>
+
+<h2>Formatos dispoñibles</h2>
+<table id=formatos>
+	<tr>
+		<th> Id </th>
+		<th> Nome </th>
+		<th> Campos </th>
+		<th> Subformatos </th>
+		<th></th>
+        </tr>
+<% @formatos.each do |formato| %>
+	<tr>
+		<td> <%= formato.id %> </td>
+        <td> <%= formato.nome %> </td>
+		<!-- Imprimimos os campos que posúe o formato -->		
+		<td> 
+			<ol>
+			<% formato.campos.each do |campo| %>
+				<li><%= campo.tipo %> >
+				<%= campo.subtipo %></li>
+			<% end %>
+			</ol> 
+		</td>
+		<!-- Imprimimos os subformatos de cada campo -->
+		<td>
+		<% formato.subformatos.each do |subformato| %>
+			<li><%= subformato.id %>
+			(<%= subformato.dispositivoloxico.relacionAspectoHorizontal %>:<%= subformato.dispositivoloxico.relacionAspectoVertical %>)
+			</li>
+		<% end %>
+		</td>
+		<td>
+		<%= form_tag new_diapositiva_path, :method => :get do%>
+			<%= hidden_field_tag :idFormato, formato.id%>	
+			<%= submit_tag "Selecionar"%>
+		<% end %>
+		</td>
+	</tr>
+<% end %>
+</table>
+
+<%if params[:idFormato]%>
+<h2>Crear contido </h2>
+	<!-- Comprobamos o formato escollido contrastando con todos os existentes -->	
+	<% @formatos.each do |formato| %>
+		<% if ((formato.id).to_i == (params[:idFormato]).to_i) %>
+			<!-- É necesario escoller para que dispositivos se crearán os contidos -->
+			Selecione os tipos de dispositivos para os que crear a diapositiva:
+			<br>
+			<% @dispositivosloxicos.each do |dispositivo| %>
+				<%= check_box_tag 'dispositivo', dispositivo %>
+				<%= dispositivo.relacionAspectoHorizontal %>:<%= dispositivo.relacionAspectoVertical %>
+			<% end %>
+			<br><br>
+			<!-- Imprimimos os campos do formato escollido -->
+			<%= form_tag diapositivas_path %>
+				<% formato.campos.each do |campo| %>
+					<% @etiqueta = campo.tipo+' > '+campo.subtipo %>
+					<%# @label = "valor" + @contador.to_s %>
+					<%= label_tag @etiqueta %>
+					<input type=text name="valor[]">
+					<input type=hidden name="idCampo[]", value="<%= campo.id %>">
+					<br><br>
+				<% end %>
+				<%= hidden_field_tag 'idFormato', params[:idFormato] %>
+				<%= submit_tag 'Gardar contido' %>
+			<% end %>	
+	<% end %>
+<% end %>
+
+<br><br>
+<%= link_to 'Volver ó listado de diapositivas', diapositivas_path %>

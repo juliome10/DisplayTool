@@ -1,0 +1,65 @@
+<div id="enlaces">
+  <%= link_to "Volver á edición do formato", edit_formato_path(@formato) %>
+  <%= link_to "Volver á lista de formatos", formatos_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"> <%= flash[:notificacion]%> </div>
+<% end %>
+  
+<div id="paxina">
+
+  <h2> Campos contidos </h2>
+  <div id="datos">
+    <% if @formato.campos.empty? %>
+      <p> O formato non contén campos.</p>
+    <% else %>
+    <table id="tabla">
+      <tr>
+        <th> Tipo </th>
+        <th> Subtipo </th>
+        <th></th>
+      </tr>
+      <% @formato.campos.zip @rexistros %>
+      <% @formato.campos.each.zip(@rexistros) do |campo,rexistro| %>
+        <tr>
+          <td><%= campo.tipo %> </td>
+          <td><%= campo.subtipo %> </td>
+          <td>
+            <%= form_tag :controller => "campos", :action => "desvincular" do %>
+              <%= hidden_field_tag :idFormato, @formato.id %>
+              <%= hidden_field_tag :idCampo, campo.id %>
+              <%= hidden_field_tag :rexistro_id, rexistro.id %>
+              <%= submit_tag 'Eliminar'%>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
+    <% end %>
+  </div>
+
+  <h2> Listado de campos </h2>
+  <div id="datos">
+    <table id="tabla">
+      <tr>
+        <th> Tipo </th>
+        <th> Subtipo </th>
+        <th></th>
+      </tr>
+    <% @campos.each do |campo| %>
+      <tr>
+        <td> <%= campo.tipo %> </td>
+        <td> <%= campo.subtipo %> </td>
+        <td>
+          <%= form_tag campos_path do %>
+            <%= hidden_field_tag :idFormato, @formato.id %>
+            <%= hidden_field_tag :idCampo, campo.id %>
+            <%= submit_tag 'Engadir' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </div>
+</div>

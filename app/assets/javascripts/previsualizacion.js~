@@ -1,0 +1,782 @@
+// Last updated November 2010 by Simon Sarris
+// www.simonsarris.com
+// sarris@acm.org
+//
+// Free to use and distribute at will
+// So long as you are nice to people, etc
+
+// This is a self-executing function that I added only to stop this
+// new script from interfering with the old one. It's a good idea in general, but not
+// something I wanted to go over during this tutorial
+(function(window) {
+
+
+// holds all our boxes
+var boxes = [];
+var boxes2 = [];
+var boxes3 = []; 
+
+// New, holds the 8 tiny boxes that will be our selection handles
+// the selection handles will be in this order:
+// 0  1  2
+// 3     4
+// 5  6  7
+var selectionHandles = [];
+
+// Hold canvas information
+var canvas;
+var canvas2;
+var canvas3;
+
+var ctx;
+var ctx2;
+var ctx3;
+
+var WIDTH;
+var WIDTH2;
+var WIDTH3;
+
+var HEIGHT;
+var HEIGHT2;
+var HEIGHT3;
+
+var INTERVAL = 20;  // how often, in milliseconds, we check to see if a redraw is needed
+
+var isDrag = false;
+var isDrag2 = false;
+var isDrag3 = false;
+
+var isResizeDrag = false;
+
+var expectResize = -1; // New, will save the # of the selection handle if the mouse is over one.
+var mx, my; // mouse coordinates
+
+ // when set to true, the canvas will redraw everything
+ // invalidate() just sets this to false right now
+ // we want to call invalidate() whenever we make a change
+var canvasValid = false;
+var canvasValid2 = false;
+var canvasValid3 = false;
+
+// The node (if any) being selected.
+// If in the future we want to select multiple objects, this will get turned into an array
+var mySel = null;
+
+// The selection color and width. Right now we have a red selection with a small width
+var mySelColor = '#CC0000';//'#9dafe0';
+var mySelWidth = 2;
+var mySelBoxColor = 'darkred'; // New for selection boxes
+var mySelBoxSize = 6;
+
+// we use a fake canvas to draw individual shapes for selection testing
+var ghostcanvas;
+//var ghostcanvas2;
+//var ghostcanvas3;
+
+var gctx; // fake canvas context
+var gctx2;
+var gctx3;
+
+// since we can drag from anywhere in a node
+// instead of just its x/y corner, we need to save
+// the offset of the mouse when we start dragging.
+var offsetx, offsety;
+
+// Padding and border style widths for mouse offsets
+var stylePaddingLeft, stylePaddingTop, styleBorderLeft, styleBorderTop;
+var stylePaddingLeft2, stylePaddingTop2, styleBorderLeft2, styleBorderTop2;
+var stylePaddingLeft3, stylePaddingTop3, styleBorderLeft3, styleBorderTop3;
+
+/************************************************************************************************************************************************/
+
+// Box object to hold data
+function Box() {
+  this.x = 0;
+  this.y = 0;
+  this.w = 0;
+  this.h = 0;
+  this.fill = '#444444';
+  this.row = "";
+  this.id = 0;
+}
+
+/************************************************************************************************************************************************/
+
+// New methods on the Box class
+Box.prototype = {
+  // we used to have a solo draw function
+  // but now each box is responsible for its own drawing
+  // mainDraw() will call this with the normal canvas
+  // myDown will call this with the ghost canvas with 'black'
+  draw: function(context, optionalColor) {
+      if (context === gctx || context === gctx2 || context === gctx3) {
+        context.fillStyle = 'black'; // always want black for the ghost canvas
+      } else {
+        context.fillStyle = this.fill;
+      }
+      
+      // We can skip the drawing of elements that have moved off the screen:
+      if (this.x > WIDTH || this.y > HEIGHT) return; 
+      if (this.x + this.w < 0 || this.y + this.h < 0) return;
+      
+      context.fillRect(this.x,this.y,this.w,this.h);
+      
+    // draw selection
+    // this is a stroke along the box and also 8 new selection handles
+    if (mySel === this) {
+      context.strokeStyle = mySelColor;
+      context.lineWidth = mySelWidth;
+      context.strokeRect(this.x,this.y,this.w,this.h);
+
+      //PINTAR TODA A TABLA DE BLANCO
+      pintarTablaBlanco();
+
+      //CAMBIAR COR DA FILA
+      var fila = this.row;
+      var filas = document.getElementById('formatos').getElementsByTagName('td');
+      for (var i=fila*10; i<fila*10+10; i++){
+      	filas[i].style.background = "#9dafe0";//#d0dafd
+      }
+      
+      //DEBUXO DAS CAIXAS DE REDIMENSIÓN
+      /*/ draw the boxes
+      var half = mySelBoxSize / 2;
+      
+      // 0  1  2
+      // 3     4
+      // 5  6  7
+
+      var x = parseFloat(this.x);
+      var y = parseFloat(this.y);
+      var w = parseFloat(this.w);
+      var h = parseFloat(this.h);
+
+      // top left, middle, right
+      selectionHandles[0].x = x-half;
+      selectionHandles[0].y = y-half;
+
+      selectionHandles[1].x = x+w/2-half;
+      selectionHandles[1].y = y-half;
+
+      selectionHandles[2].x = x + w-half;
+      selectionHandles[2].y = y-half;
+
+      //middle left
+      selectionHandles[3].x = x-half;
+      selectionHandles[3].y = y+h/2-half;
+
+      //middle right
+      selectionHandles[4].x = x+w-half;
+      selectionHandles[4].y = y+h/2-half;
+
+      //bottom left, middle, right
+      selectionHandles[6].x = x+w/2-half;
+      selectionHandles[6].y = y+h-half;
+
+      selectionHandles[5].x = x-half;
+      selectionHandles[5].y = y+h-half;
+
+      selectionHandles[7].x = x+w-half;
+      selectionHandles[7].y = y+h-half;
+
+      
+      context.fillStyle = mySelBoxColor;
+      for (var i = 0; i < 8; i ++) {
+        var cur = selectionHandles[i];
+        context.fillRect(cur.x, cur.y, mySelBoxSize, mySelBoxSize);
+      }*/
+    }
+    
+  } // end draw
+
+}
+
+/************************************************************************************************************************************************/
+
+//Initialize a new Box, add it, and invalidate the canvas
+function addRect(x, y, w, h, fill, dispositivo, row, id) {
+  var rect = new Box;
+  rect.x = x;
+  rect.y = y;
+  rect.w = w
+  rect.h = h;
+  rect.fill = fill;
+  rect.row = row;
+  rect.id = id;
+  if (dispositivo == 1){
+     boxes.push(rect);
+  }else if (dispositivo == 2){
+    boxes2.push(rect);
+  }else if (dispositivo == 3){
+    boxes3.push(rect);
+  }
+  invalidate();
+}
+
+/************************************************************************************************************************************************/
+
+// initialize our canvas, add a ghost canvas, set draw loop then add everything we want to intially exist on the canvas
+function init() {
+  canvas = document.getElementById('canvas');
+  canvas2 = document.getElementById('canvas2');
+  canvas3 = document.getElementById('canvas3');
+  HEIGHT = canvas.height;
+  HEIGHT2 = canvas2.height;
+  HEIGHT3 = canvas3.height;
+  WIDTH = canvas.width;
+  WIDTH2 = canvas2.width;
+  WIDTH3 = canvas3.width;
+  ctx = canvas.getContext('2d');
+  ctx2 = canvas2.getContext('2d');
+  ctx3 = canvas3.getContext('2d');
+  ghostcanvas = document.createElement('canvas');
+  ghostcanvas2 = document.createElement('canvas');
+  ghostcanvas3 = document.createElement('canvas');
+  ghostcanvas.height = HEIGHT;
+  ghostcanvas2.height = HEIGHT2;
+  ghostcanvas3.height = HEIGHT3;
+  ghostcanvas.width = WIDTH;
+  ghostcanvas2.width = WIDTH2;
+  ghostcanvas3.width = WIDTH3;
+  gctx = ghostcanvas.getContext('2d');
+  gctx2 = ghostcanvas2.getContext('2d');
+  gctx3 = ghostcanvas3.getContext('2d');
+
+  //fixes a problem where double clicking causes text to get selected on the canvas
+  canvas.onselectstart = function () { return false; }
+  canvas2.onselectstart = function () { return false; }  
+  canvas3.onselectstart = function () { return false; }  
+  
+// fixes mouse co-ordinate problems when there's a border or padding
+  // see getMouse for more detail
+  if (document.defaultView && document.defaultView.getComputedStyle) {
+    stylePaddingLeft = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingLeft'], 10)     || 0;
+    stylePaddingTop  = parseInt(document.defaultView.getComputedStyle(canvas, null)['paddingTop'], 10)      || 0;
+    styleBorderLeft  = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderLeftWidth'], 10) || 0;
+    styleBorderTop   = parseInt(document.defaultView.getComputedStyle(canvas, null)['borderTopWidth'], 10)  || 0;
+	stylePaddingLeft2 = parseInt(document.defaultView.getComputedStyle(canvas2, null)['paddingLeft'], 10)     || 0;
+    stylePaddingTop2  = parseInt(document.defaultView.getComputedStyle(canvas2, null)['paddingTop'], 10)      || 0;
+    styleBorderLeft2  = parseInt(document.defaultView.getComputedStyle(canvas2, null)['borderLeftWidth'], 10) || 0;
+    styleBorderTop2   = parseInt(document.defaultView.getComputedStyle(canvas2, null)['borderTopWidth'], 10)  || 0;
+	stylePaddingLeft3 = parseInt(document.defaultView.getComputedStyle(canvas3, null)['paddingLeft'], 10)     || 0;
+    stylePaddingTop3  = parseInt(document.defaultView.getComputedStyle(canvas3, null)['paddingTop'], 10)      || 0;
+    styleBorderLeft3  = parseInt(document.defaultView.getComputedStyle(canvas3, null)['borderLeftWidth'], 10) || 0;
+    styleBorderTop3   = parseInt(document.defaultView.getComputedStyle(canvas3, null)['borderTopWidth'], 10)  || 0;
+
+  }
+  
+  // make mainDraw() fire every INTERVAL milliseconds
+  setInterval(mainDraw, INTERVAL);
+  
+  // set our events. Up and down are for dragging
+  canvas.onmousedown = myDown;
+  canvas.onmouseup = myUp;
+  //canvas.ondblclick = myDblClick;
+  canvas.onmousemove = myMove;
+  
+  canvas2.onmousedown = myDown;
+  canvas2.onmouseup = myUp;
+  //canvas2.ondblclick = myDblClick;
+  canvas2.onmousemove = myMove;
+
+  canvas3.onmousedown = myDown;
+  canvas3.onmouseup = myUp;
+
+  // set up the selection handle boxes
+  for (var i = 0; i < 8; i ++) {
+    var rect = new Box;
+    selectionHandles.push(rect);
+  }
+ 
+  var datosInputs;
+  var datosTds;
+  var posX = [];
+  var posY = [];
+  var lonX = [];
+  var lonY = [];
+  var disp = [];
+  var campo = [];
+  
+  datosInputs = document.getElementById("formatos").getElementsByTagName("input");
+  datosTds = document.getElementById("formatos").getElementsByTagName('td');
+
+  for(var i=0; i<datosInputs.length; i++){
+      if(datosInputs[i].id == "posicionX"){
+	posX.push(datosInputs[i].value);
+      }else if(datosInputs[i].id == "posicionY"){
+        posY.push(datosInputs[i].value);
+      }else if(datosInputs[i].id == "lonxitudeX"){
+        lonX.push(datosInputs[i].value);
+      }else if(datosInputs[i].id == "lonxitudeY"){
+        lonY.push(datosInputs[i].value);
+      }
+  }
+
+  for(var i=0; i<datosTds.length; i++){
+      if(datosTds[i].id == "idDispositivo"){
+        disp.push(datosTds[i].innerHTML);
+      }else if(datosTds[i].id == "idCampo"){
+        campo.push(datosTds[i].innerHTML);
+	  }
+  }
+
+  for(var j=0; j<posX.length; j++){
+    addRect(posX[j], posY[j], lonX[j], lonY[j],calcularColor(campo[j]), disp[j], j, campo[j]);
+  }
+
+}
+
+/************************************************************************************************************************************************/
+
+function calcularColor(idCampo){
+	idCampo = idCampo%10;
+    switch(idCampo){
+		case 0:
+			return 'rgba(0,0,0,0.7)';
+		break;		
+		case 1:
+			return 'rgba(200,0,0,0.7)';
+		break;
+		case 2:
+			return 'rgba(200,200,0,0.7)';
+		break;
+		case 3:
+			return 'rgba(0,200,0,0.7)';
+		break;
+		case 4:
+			return 'rgba(0,200,200,0.7)';
+		break;
+		case 5:
+			return 'rgba(0,0,200,0.7)';
+		break;
+		case 6:
+			return 'rgba(200,0,200,0.7)';
+		break;
+		case 7:
+			return 'rgba(50,0,200,0.7)';
+		break;
+		case 8:
+			return 'rgba(200,0,50,0.7)';
+		break;
+		case 9:
+			return 'rgba(0,50,200,0.7)';
+		break;
+		
+	}
+}
+
+/************************************************************************************************************************************************/
+function pintarTablaBlanco(){
+	var filas = document.getElementById('formatos').getElementsByTagName('td');
+	for (var i=0; i<filas.length; i++){
+  		filas[i].style.background = "white";
+  	}
+}
+
+/************************************************************************************************************************************************/
+
+function pintarFila(input){
+		//Primeiro pinto toda a tabla con fondo blanco
+		var celdas = document.getElementById("formatos").getElementsByTagName('td');
+		for(var i=0; i<celdas.length; i++){
+			celdas[i].style.background = "white";		
+		}
+		//Despois resalto a fila na que se está traballando		
+		var celdasSelecionadas = input.parentNode.parentNode.getElementsByTagName('td');
+		for(var i=0; i<celdasSelecionadas.length; i++){
+			celdasSelecionadas[i].style.background = "#9dafe0"
+		}
+		//Esto depende da colocación na táboa. Obteñense o campo e o dispositivo para selecionar o campo correcto.		
+		var dispositivo = parseInt(input.parentNode.parentNode.getElementsByTagName('td')[2].innerHTML);
+		var campo = parseInt(input.parentNode.parentNode.getElementsByTagName('td')[1].innerHTML);
+		switch (dispositivo){
+			case 1:
+				for(var i=0; i<boxes.length; i++){
+					if(boxes[i].id == campo){
+						mySel = boxes[i];
+						break;
+					}
+				}
+			break;
+			case 2:
+				for(var i=0; i<boxes2.length; i++){
+					if(boxes2[i].id == campo){
+						mySel = boxes2[i];
+						break;
+					}
+				}
+			break;
+			case 3:
+				for(var i=0; i<boxes3.length; i++){				
+					if(boxes3[i].id == campo){
+						mySel = boxes3[i];
+						break;
+					}
+				}
+			break;
+		}		
+		invalidate();
+		
+	}
+
+/************************************************************************************************************************************************/
+
+//wipes the canvas context
+function clear(c,id) {
+
+	switch(id){
+	case "canvas":
+		c.clearRect(0, 0, WIDTH, HEIGHT);
+	break;
+	case "canvas2":
+		c.clearRect(0, 0, WIDTH2, HEIGHT2);
+	break;
+	case "canvas3":
+		c.clearRect(0, 0, WIDTH3, HEIGHT3);
+	break;
+  }
+}
+
+/************************************************************************************************************************************************/
+
+// Main draw loop.
+// While draw is called as often as the INTERVAL variable demands,
+// It only ever does something if the canvas gets invalidated by our code
+function mainDraw() {
+  if (canvasValid == false) {
+	
+    clear(ctx,"canvas");
+    clear(ctx2,"canvas2");
+    clear(ctx3,"canvas3");
+	 
+    // Add stuff you want drawn in the background all the time here
+    
+    // draw all boxes
+	//DEBUXAMOS AS CAIXAS NOS CANVAS CORRESPONDENTES
+	var l = boxes.length;
+	for (var i = 0; i < l; i++) {
+	  boxes[i].draw(ctx); // we used to call drawshape, but now each box draws itself
+	}
+	l = boxes2.length;
+	for (var i = 0; i < l; i++){
+		boxes2[i].draw(ctx2);
+	}
+	l = boxes3.length;
+	for (var i = 0; i < l; i++){
+		boxes3[i].draw(ctx3);
+	} 
+
+	// Add stuff you want drawn on top all the time here
+    canvasValid = true;
+	  
+  }
+	
+}
+
+/************************************************************************************************************************************************/
+
+// Happens when the mouse is clicked in the canvas
+function myDown(e){
+  getMouse(e,this.id);
+	  //we are over a selection box
+	  //PINCHAMOS SOBRE UN BOX DE REDIMENSIÓN
+	  if (expectResize !== -1) {
+		isResizeDrag = true;
+		return;
+	  }
+	  
+	  //CONTROL DE EVENTO EN CANVAS 1
+	  if(this.id == "canvas"){
+		  clear(gctx,this.id);
+		  var l = boxes.length;
+		  for (var i = l-1; i >= 0; i--) {
+			// draw shape onto ghost context
+			boxes[i].draw(gctx, 'black');
+			// get image data at the mouse x,y pixel
+			var imageData = gctx.getImageData(mx, my, 1, 1);
+			var index = (mx + my * imageData.width) * 4;
+			// if the mouse pixel exists, select and break
+			if (imageData.data[3] > 0) {
+			  	mySel = boxes[i];
+			  	offsetx = mx - mySel.x;
+			  	offsety = my - mySel.y;
+			  	mySel.x = mx - offsetx;
+			  	mySel.y = my - offsety;
+			  	isDrag = true;
+			  
+			  invalidate();
+			  clear(gctx,this.id);
+		  	  return;
+			}
+		  }
+	  //CONTROL DE EVENTO EN CANVAS 2
+	  }else if(this.id == "canvas2"){
+		  clear(gctx2,this.id);
+          var l = boxes2.length;
+		  for (var i = l-1; i >= 0; i--) {
+			// draw shape onto ghost context
+			boxes2[i].draw(gctx2, 'black');
+			// get image data at the mouse x,y pixel
+			var imageData = gctx2.getImageData(mx, my, 1, 1);
+			var index = (mx + my * imageData.width) * 4;
+			// if the mouse pixel exists, select and break
+			if (imageData.data[3] > 0) {
+			  	mySel = boxes2[i];
+			  	offsetx = mx - mySel.x;
+			  	offsety = my - mySel.y;
+			  	mySel.x = mx - offsetx;
+			  	mySel.y = my - offsety;
+			  	isDrag = true;
+			  
+			  invalidate();
+			  clear(gctx2,this.id);
+		  	  return;
+			}
+		  }
+	  //CONTROL DE EVENTO EN CANVAS 3
+	  }else if(this.id == "canvas3"){
+		  clear(gctx3,this.id);
+  	  	  var l = boxes3.length;
+		  for (var i = l-1; i >= 0; i--) {
+			// draw shape onto ghost context
+			boxes3[i].draw(gctx3, 'black');
+			// get image data at the mouse x,y pixel
+			var imageData = gctx3.getImageData(mx, my, 1, 1);
+			var index = (mx + my * imageData.width) * 4;
+			// if the mouse pixel exists, select and break
+			if (imageData.data[3] > 0) {
+			  	mySel = boxes3[i];
+			  	offsetx = mx - mySel.x;
+			  	offsety = my - mySel.y;
+			  	mySel.x = mx - offsetx;
+			  	mySel.y = my - offsety;
+			  	isDrag = true;
+			  
+			  invalidate();
+			  clear(gctx3,this.id);
+		  	  return;
+			}
+		  }
+   	  }
+
+	  // havent returned means we have selected nothing
+	  mySel = null;
+	  //NADA SELECIONADO, POLO QUE PINTAMOS A TABLA DE BLANCO
+	  pintarTablaBlanco();
+	  // clear the ghost canvas for next time
+		if(this.id == "canvas"){	  
+			clear(gctx,this.id);
+        }else if(this.id == "canvas2"){
+			clear(gctx2,this.id);
+	  	}else if(this.id == "canvas3"){
+			clear(gctx3,this.id);
+		}
+	  // invalidate because we might need the selection border to disappear
+	  invalidate();
+}
+
+/************************************************************************************************************************************************/
+
+function myUp(){
+  isDrag = false;
+  isResizeDrag = false;
+  expectResize = -1;
+}
+
+
+/************************************************************************************************************************************************/
+
+function invalidate() {
+	
+  canvasValid = false;
+  /*var filas = document.getElementById('formatos').getElementsByTagName('td');
+      for (var i=0; i<filas.length; i++){
+      	filas[i].style.background = "white";
+      }*/
+}
+
+
+/************************************************************************************************************************************************/
+// Sets mx,my to the mouse position relative to the canvas unfortunately this can be tricky, we have to worry about padding and borders
+function getMouse(e,id) {
+	switch(id){
+		case "canvas":
+			var element = canvas;
+		break;
+		case "canvas2":
+			var element = canvas2;
+		break;
+		case "canvas3":
+			var element = canvas3;
+		break;
+	}	
+	var offsetX = 0, offsetY = 0;
+	if (element.offsetParent) {
+    	do {
+        	offsetX += element.offsetLeft;
+        	offsetY += element.offsetTop;
+        }while ((element = element.offsetParent));
+    }
+
+	// Add padding and border style widths to offset
+	if(id == "canvas"){	
+		offsetX += stylePaddingLeft;
+		offsetY += stylePaddingTop;
+
+		offsetX += styleBorderLeft;
+		offsetY += styleBorderTop;
+	}else if(id == "canvas2"){
+		offsetX += stylePaddingLeft2;
+		offsetY += stylePaddingTop2;
+
+		offsetX += styleBorderLeft2;
+		offsetY += styleBorderTop2;
+	}else if(id == "canvas3"){
+		offsetX += stylePaddingLeft3;
+		offsetY += stylePaddingTop3;
+
+		offsetX += styleBorderLeft3;
+		offsetY += styleBorderTop3;
+	}
+	mx = e.pageX - offsetX;
+	my = e.pageY - offsetY;
+}
+
+/************************************************************************************************************************************************/
+
+// Happens when the mouse is moving inside the canvas
+function myMove(e){
+  if (isDrag) {
+    getMouse(e,this.id);
+    //alert("Pinchei un!");
+    mySel.x = mx - offsetx;
+    mySel.y = my - offsety;   
+    
+    // something is changing position so we better invalidate the canvas!
+    invalidate();
+  } else if (isResizeDrag) {
+    // time ro resize!
+    var oldx = mySel.x;
+    var oldy = mySel.y;
+
+    // 0  1  2
+    // 3     4
+    // 5  6  7
+    switch (expectResize) {
+      case 0:
+        mySel.x = mx;
+        mySel.y = my;
+        mySel.w += oldx - mx;
+        mySel.h += oldy - my;
+        break;
+      case 1:
+        mySel.y = my;
+        mySel.h += oldy - my;
+        break;
+      case 2:
+        mySel.y = my;
+        mySel.w = mx - oldx;
+        mySel.h += oldy - my;
+        break;
+      case 3:
+        mySel.x = mx;
+        mySel.w += oldx - mx;
+        break;
+      case 4:
+        mySel.w = mx - oldx;
+        break;
+      case 5:
+        mySel.x = mx;
+        mySel.w += oldx - mx;
+        mySel.h = my - oldy;
+        break;
+      case 6:
+        mySel.h = my - oldy;
+        break;
+      case 7:
+        mySel.w = mx - oldx;
+        mySel.h = my - oldy;
+        break;
+    }
+    
+    invalidate();
+  }
+  
+  getMouse(e,this.id);
+  // if there's a selection see if we grabbed one of the selection handles
+  if (mySel !== null && !isResizeDrag) {
+    for (var i = 0; i < 8; i++) {
+      // 0  1  2
+      // 3     4
+      // 5  6  7
+      
+      var cur = selectionHandles[i];
+      
+      // we dont need to use the ghost context because
+      // selection handles will always be rectangles
+      if (mx >= cur.x && mx <= cur.x + mySelBoxSize &&
+          my >= cur.y && my <= cur.y + mySelBoxSize) {
+        // we found one!
+        expectResize = i;
+        invalidate();
+        
+        switch (i) {
+          case 0:
+            this.style.cursor='nw-resize';
+            break;
+          case 1:
+            this.style.cursor='n-resize';
+            break;
+          case 2:
+            this.style.cursor='ne-resize';
+            break;
+          case 3:
+            this.style.cursor='w-resize';
+            break;
+          case 4:
+            this.style.cursor='e-resize';
+            break;
+          case 5:
+            this.style.cursor='sw-resize';
+            break;
+          case 6:
+            this.style.cursor='s-resize';
+            break;
+          case 7:
+            this.style.cursor='se-resize';
+            break;
+        }
+        return;
+      }
+      
+    }
+    // not over a selection box, return to normal
+    isResizeDrag = false;
+    expectResize = -1;
+    this.style.cursor='auto';
+  }
+  
+}
+
+/************************************************************************************************************************************************/
+
+// adds a new node
+function myDblClick(e) {
+  getMouse(e);
+  // for this method width and height determine the starting X and Y, too.
+  // so I left them as vars in case someone wanted to make them args for something and copy this code
+  var width = 20;
+  var height = 20;
+  addRect(mx - (width / 2), my - (height / 2), width, height, 'rgba(220,205,65,0.7)');
+}
+
+/************************************************************************************************************************************************/
+
+// If you dont want to use <body onLoad='init()'>
+// You could uncomment this init() reference and place the script reference inside the body tag
+//init();
+window.init = init;
+window.pintarFila = pintarFila;
+})(window);
+
+

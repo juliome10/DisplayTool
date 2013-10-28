@@ -1,0 +1,27 @@
+# encoding: utf-8
+Feature: 39. Modificar valores dos parámetros de configuración
+  Como usuario da aplicación
+  Quero poder modificar o valor dos parámetros de configuración
+  Para actualizar o valor cando sexa necesario
+
+  Background: datos almacenados na base de datos[90m # 39.feature:8[0m
+    [32mGiven the following parametros exist:[90m        # step_definitions/parametros_steps.rb:3[0m[0m
+      | [32mnome                        [0m[0m |[0m [32mvariable                [0m[0m |[0m [32mvalor   [0m[0m |[0m
+      | [32mAliñado horizontal do título[0m[0m |[0m [32mtitulo_alinadoHorizontal[0m[0m |[0m [32mCentrado[0m[0m |[0m
+
+  Scenario: Modificar valores dos parámetros de configuración.[90m                                           # 39.feature:13[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                                          # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mParámetros de configuración[0m[0m[32m"[90m                                                          # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Parámetros de configuración" page[0m[0m[32m[90m                                               # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                                               # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Parámetro de configuración" called "Aliñado horizontal do título"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd "[32m[1mCentrado[0m[0m[32m" should be selected for "[32m[1mvalor[0m[0m[32m"[90m                                                        # step_definitions/web_steps.rb:296[0m[0m
+    [32mWhen I select "[32m[1mEsquerda[0m[0m[32m" from "[32m[1mvalor[0m[0m[32m"[90m                                                                # step_definitions/web_steps.rb:99[0m[0m
+    [32mAnd I press "[32m[1mActualizar[0m[0m[32m"[90m                                                                             # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1m"Parámetros de configuración" page[0m[0m[32m[90m                                               # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                                                                          # step_definitions/web_steps.rb:291[0m[0m
+    [32mAnd "Parámetro de configuración" called "[32m[1mAliñado horizontal do título[0m[0m[32m" has "[32m[1mEsquerda[0m[0m[32m" as valor[90m       # step_definitions/parametros_steps.rb:10[0m[0m
+
+1 scenario ([32m1 passed[0m)
+12 steps ([32m12 passed[0m)
+0m1.362s

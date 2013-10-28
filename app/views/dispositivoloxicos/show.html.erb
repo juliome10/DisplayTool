@@ -1,0 +1,28 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_dispositivoloxico_path(@dispositivoloxico) %>
+  <%= link_to 'Volver ó listado de dispositivos lóxicos', dispositivoloxicos_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Relaci&oacute;n de aspecto horizontal:</b> <%= @dispositivoloxico.relacionAspectoHorizontal %></p>
+    <p><b>Relaci&oacute;n de aspecto vertical:</b> <%= @dispositivoloxico.relacionAspectoVertical %></p>
+    <p><b>Tipo de dispositivo:</b> <%= @dispositivoloxico.relacionAspectoHorizontal %>:<%= @dispositivoloxico.relacionAspectoVertical %></p>
+  </div>
+
+  <h2> Previsualizaci&oacute;n </h2>
+  <div id="datos">
+    <%if (@dispositivoloxico.relacionAspectoHorizontal == 4)%>
+      <%= image_tag("4x3.jpg") %>
+    <%elsif (@dispositivoloxico.relacionAspectoHorizontal == 3)%>
+      <%= image_tag("3x4.jpg") %>
+    <%elsif (@dispositivoloxico.relacionAspectoHorizontal == 16)%>
+      <%= image_tag("16x9.jpg") %>
+    <%end%>
+  </div>
+</div>

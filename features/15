@@ -1,0 +1,47 @@
+# encoding: utf-8
+Feature: 15. Configuración dos campos dun subformato
+  Como usuario da aplicación
+  Quero poder configurar os campos dun subformato
+  Para poder configurar a visualización dos campos no tipo de dispositivo
+
+  Background: datos almacenados na base de datos[90m  # 15.feature:8[0m
+    [32mGiven the following formatos exist:[90m           # step_definitions/formatos_steps.rb:3[0m[0m
+      | [32mnome      [0m[0m |[0m [32mdescricion                      [0m[0m |[0m
+      | [32mFormato Un[0m[0m |[0m [32mFormato cun título e unha imaxe.[0m[0m |[0m
+    [32mGiven the following campos exist:[90m             # step_definitions/campos_steps.rb:3[0m[0m
+      | [32mtipo [0m[0m |[0m [32msubtipo   [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mTítulo    [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mSubtítulo [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mResumo    [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mDescrición[0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mPé        [0m[0m |[0m
+      | [32mImaxe[0m[0m |[0m [32mLogo      [0m[0m |[0m
+      | [32mImaxe[0m[0m |[0m [32mFoto      [0m[0m |[0m
+      | [32mVídeo[0m[0m |[0m [32mLocal     [0m[0m |[0m
+      | [32mVídeo[0m[0m |[0m [32mEmbebido  [0m[0m |[0m
+    [32mGiven the following dispositivoloxicos exist:[90m # step_definitions/dispositivoloxicos_steps.rb:3[0m[0m
+      | [32mrelacionAspectoHorizontal[0m[0m |[0m [32mrelacionAspectoVertical[0m[0m |[0m
+      | [32m16                       [0m[0m |[0m [32m9                      [0m[0m |[0m
+
+  Scenario: Configuración dos campos dun subformato.[90m                                                                   # 15.feature:30[0m
+    [32mGiven "Formato" called "[32m[1mFormato Un[0m[0m[32m" has "[32m[1mTítulo[0m[0m[32m"[90m                                                                   # step_definitions/formatos_steps.rb:10[0m[0m
+    [32mGiven "Formato" called "[32m[1mFormato Un[0m[0m[32m" has "Subformato" for "Dispositivo" [32m[1m16[0m[0m[32m:[32m[1m9[0m[0m[32m[90m                                        # step_definitions/formatos_steps.rb:16[0m[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                                                        # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mFormatos[0m[0m[32m"[90m                                                                                           # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Formatos" page[0m[0m[32m[90m                                                                                # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                                                             # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Formato" called "Formato Un"[0m[0m[32m[90m                                                    # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mConsultar[0m[0m[32m"[90m                                                                                          # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Subformato" page which belongs to "Formato" called "Formato Un" and "Dispositivo lóxico" 16:9[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I fill in "[32m[1mposicionX[0m[0m[32m" with "[32m[1m5[0m[0m[32m"[90m                                                                                # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mposicionY[0m[0m[32m" with "[32m[1m5[0m[0m[32m"[90m                                                                                 # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mlonxitudeX[0m[0m[32m" with "[32m[1m90[0m[0m[32m"[90m                                                                               # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mlonxitudeY[0m[0m[32m" with "[32m[1m5[0m[0m[32m"[90m                                                                                # step_definitions/web_steps.rb:74[0m[0m
+    [32mWhen I press "[32m[1mActualizar[0m[0m[32m"[90m                                                                                          # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1m"Subformato" page which belongs to "Formato" called "Formato Un" and "Dispositivo lóxico" 16:9[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                                                                                        # step_definitions/web_steps.rb:291[0m[0m
+    [32mAnd a preview panel exists[90m                                                                                         # step_definitions/subformatos_steps.rb:3[0m[0m
+
+1 scenario ([32m1 passed[0m)
+20 steps ([32m20 passed[0m)
+0m1.360s

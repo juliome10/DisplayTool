@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Traballo Fin de Grao</title>
+  </head>
+  <style type="text/css" media="screen">
+    	html, body {
+  	margin: 0;
+	  background-color: #ffffff;
+	  color: DarkSlateGrey;
+	  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+	  font-size: 14px;
+	  line-height: 20px;
+	  color: #333333;
+	}
+	head{
+	  #background-image: url("assets/images/rails.png");
+	  #background-repeat: no-repeat;
+	  #background-position: top left;
+	  #height: 64px;
+	}
+	a {
+	  color: #0088cc;
+	  text-decoration: none;
+	}
+	a:hover,
+	a:focus{
+	  color: #005580;
+	  text-decoration: underline;
+	}
+	h1 {
+	  margin: 10px 0;
+	  font-family: inherit;
+	  font-weight: bold;
+	  line-height: 20px;
+	  color: inherit;
+	  text-rendering: optimizelegibility;
+	}
+  </style>
+  <body>
+    <h1>Sistema de control da visualizaci&oacute;n da informaci&oacute;n.</h2>
+    <h2>Opci&oacute;ns dispo&ntilde;ibles</h2>
+    <a href="/formatos">Xesti&oacute;n de formatos</a><br>
+    <a href="/dispositivoloxicos">Xesti&oacute;n de dispositivos l&oacute;xicos</a><br>
+    <a href="/diapositivas">Xesti&oacute;n de diapositivas</a><br>
+    <a href="/lista_reproduccions">Xesti&oacute;n de listas de reproducci&oacute;n</a><br>
+  </body>
+</html>

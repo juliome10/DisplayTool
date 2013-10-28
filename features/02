@@ -1,0 +1,27 @@
+# encoding: utf-8
+Feature: 2. Modificación dun dispositivo lóxico
+  Como usuario da aplicación
+  Quero poder modificar un dispositivo lóxico
+  Para poder corrixir os valores da relación de aspecto do mesmo
+
+  Background: Dispositivos lóxicos na base de datos.[90m # 02.feature:8[0m
+    [32mGiven the following dispositivoloxicos exist:[90m    # step_definitions/dispositivoloxicos_steps.rb:3[0m[0m
+      | [32mrelacionAspectoHorizontal[0m[0m |[0m [32mrelacionAspectoVertical[0m[0m |[0m
+      | [32m16                       [0m[0m |[0m [32m9                      [0m[0m |[0m
+
+  Scenario: Modificación dun dispositivo lóxico.[90m                            # 02.feature:14[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                             # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mDispositivos lóxicos[0m[0m[32m"[90m                                    # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Dispositivos lóxicos" page[0m[0m[32m[90m                         # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                  # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit a "Dispositivo lóxico" 16:9[0m[0m[32m[90m           # step_definitions/web_steps.rb:250[0m[0m
+    [32mThen the "[32m[1mrelacionAspectoHorizontal[0m[0m[32m" field should contain "[32m[1m16[0m[0m[32m"[90m          # step_definitions/web_steps.rb:161[0m[0m
+    [32mAnd the "[32m[1mrelacionAspectoVertical[0m[0m[32m" field should contain "[32m[1m9[0m[0m[32m"[90m              # step_definitions/web_steps.rb:161[0m[0m
+    [32mWhen I fill in "[32m[1mrelacionAspectoHorizontal[0m[0m[32m" with "[32m[1m2[0m[0m[32m"[90m                     # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mrelacionAspectoVertical[0m[0m[32m" with "[32m[1m1[0m[0m[32m"[90m                        # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mGardar cambios[0m[0m[32m"[90m                                            # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1mpage for view details from "Dispositivo lóxico" 2:1[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+
+1 scenario ([32m1 passed[0m)
+12 steps ([32m12 passed[0m)
+0m0.959s

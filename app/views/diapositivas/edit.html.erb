@@ -1,0 +1,98 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @diapositiva %>
+  <%= link_to 'Volver ó listado de diapositivas', diapositivas_path %>
+</div>
+
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <%= form_tag diapositiva_path(@diapositiva), :method => :put do %>
+      <p><b>Nome: </b><br /><%= text_field_tag :nome, @diapositiva.nome %></p>
+      <p><b>Url: </b> <%= link_to @diapositiva.url,  @diapositiva.url, :target => '_blank' %></p>
+      <p><b>Diapositiva con formato: </b><%= @diapositiva_formato.nome %></p>
+      <p><b>Diapositiva para dispositivo: </b><%= @diapositiva_dispositivo%></p>
+      <%= hidden_field_tag :accion, 'datos' %>
+      <%= submit_tag 'Actualizar datos' %>
+    <% end %>
+  </div>
+
+  <h2> Contido </h2>
+  <div id="datosConGaleria">
+    <%= form_tag diapositiva_path(@diapositiva), :id =>'diapositivas', :method => :put do%>
+      <!-- Estilo desexado -->
+        <%= label_tag 'Estilo' %>
+        <% if @estilos.empty? %>
+          <p>Non existen estilos!</p>
+        <% else %>
+          <% @estilos.each do |estilo| %>
+            <% if @diapositiva.estilo.nil? || @diapositiva.estilo.id != estilo.id %>
+              <%= radio_button "estilo", "", estilo.id %> <%= estilo.nome %>
+              <%= link_to 'Detalles', estilo_path(estilo), :target => '_blank' %>
+              <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: top;' %>
+              <br />
+            <% else %>
+              <%= radio_button "estilo", "", estilo.id, :checked => true %> <%= estilo.nome %>
+              <%= link_to 'Detalles', estilo_path(estilo), :target => '_blank' %>
+              <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: top;' %>
+              <br />
+            <% end %>
+          <% end %>
+        <% end %>
+
+      <% @diapositiva.campos_formatos_subformatos_diapositivas.zip @diapositiva_campos %>
+      <% @diapositiva.campos_formatos_subformatos_diapositivas.zip @rexistrosCamposFormato %>
+      <% @diapositiva.campos_formatos_subformatos_diapositivas.zip(@diapositiva_campos,@rexistrosCamposFormato).each do |rexistro,campo,campoFormato| %>
+        <%= label_tag campo.subtipo %>
+        <% if campo.tipo == 'Imaxe' %>
+          <%= image_tag rexistro.contido, :size => '160x120' %><br />
+          <div id="selecionContido">
+            <p id="cargarGaleria">
+                Escoller da galería
+                <%= image_tag 'galeria.png', :size => '20x20', :style => 'vertical-align: top;' %>
+              </p>
+            <div id="galeria">
+              <%  @imaxes.each do |imaxe| %>
+                <%= image_tag(imaxe.gsub("app/assets/images/", ""), :size => '100x100') %>
+              <% end %>
+            </div>
+            <%= text_field_tag 'valor[]', rexistro.contido, :size => 50, :id => 'pathContido' %>
+            <p id="explicacion">
+              Tam&eacute;n pode facilitar unha ligaz&oacute;n externa.
+            </p>
+          </div>
+        <% elsif campo.subtipo == 'Título' || campo.subtipo == 'Subtítulo' || campo.subtipo == 'Pé' %>
+            <%= text_field_tag 'valor[]',rexistro.contido, :size => 50 %>
+        <% elsif campo.subtipo == 'Resumo' || campo.subtipo == 'Descrición'%>
+            <%= text_area_tag('valor[]', rexistro.contido, :size => "48x5", :resize => "horizontal")%>
+        <% elsif campo.tipo = 'Video' %>
+          <% if campo.subtipo == 'Embebido' %>
+            <%= rexistro.contido.html_safe %><br />
+            <%= text_area_tag('valor[]', rexistro.contido, :size => "48x5", :resize => "horizontal")%>
+          <% else %>
+            <%= video_tag(rexistro.contido, :controls => true) %></video>
+            <div id="selecionContido">
+            <p id="cargarGaleria">
+                Escoller da galería
+                <%= image_tag 'galeria.png', :size => '20x20', :style => 'vertical-align: top;' %>
+              </p>
+            <div id="galeria">
+              <%  @videos.each do |video| %>
+                    <%= video_tag(video.gsub("public/videos/", ""), :size => "200x200") %></video>
+              <% end %>
+            </div>
+            <%= text_field_tag 'valor[]', rexistro.contido, :size => 50, :id => 'pathContido' %>
+            <p id="explicacion">
+              Tam&eacute;n pode facilitar unha ligaz&oacute;n externa.
+            </p>
+          </div>
+          <% end %>
+        <% end %> <!-- END if tipo campo -->
+        <%= hidden_field_tag 'idRexistro[]', campoFormato.id %>
+      <% end %> <!-- END campos -->
+      <p>
+        <%= submit_tag 'Actualizar contido' %>
+      </p>
+    <% end %> <!-- END form -->
+  </div>
+</div>

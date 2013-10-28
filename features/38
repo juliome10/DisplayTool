@@ -1,0 +1,23 @@
+# encoding: utf-8
+Feature: 38. Parámetros de configuración
+  Como usuario da aplicación
+  Quero que existan valores predefinidos para certas propiedades
+  Para non ter que definilas do mesmo xeito repetidas veces
+
+  Background: datos almacenados na base de datos[90m # 38.feature:8[0m
+    [32mGiven the following parametros exist:[90m        # step_definitions/parametros_steps.rb:3[0m[0m
+      | [32mnome                        [0m[0m |[0m [32mvariable                [0m[0m |[0m [32mvalor        [0m[0m |[0m
+      | [32mAliñado horizontal do título[0m[0m |[0m [32mtitulo_alinadoHorizontal[0m[0m |[0m [32mCentrado     [0m[0m |[0m
+      | [32mAliñado vertical do título  [0m[0m |[0m [32mtitulo_alinadoVertical  [0m[0m |[0m [32mCentro       [0m[0m |[0m
+      | [32mCor da fonte do título      [0m[0m |[0m [32mtitulo_cor              [0m[0m |[0m [32m#ffffff      [0m[0m |[0m
+      | [32mFonte do título             [0m[0m |[0m [32mtitulo_fonte            [0m[0m |[0m [32mComic Sans MS[0m[0m |[0m
+      | [32mTamaño da fonte do título   [0m[0m |[0m [32mtitulo_tamano           [0m[0m |[0m [32m40px         [0m[0m |[0m
+
+  Scenario: Parámetros de configuración[90m                    # 38.feature:17[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                            # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mParámetros de configuración[0m[0m[32m"[90m            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Parámetros de configuración" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+
+1 scenario ([32m1 passed[0m)
+4 steps ([32m4 passed[0m)
+0m1.441s

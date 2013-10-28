@@ -1,0 +1,128 @@
+<div id="enlaces">
+  <%= link_to 'Volver ó listado de diapositivas', diapositivas_path %>
+  <%= link_to 'Xestión de contidos', uploads_path %>
+</div>
+
+<div id="paxina">
+  <% if !params[:idFormato] %>
+    <h2>Formatos dispoñibles</h2>
+    <div id="datos">
+      
+    <% if @formatos.empty?%>
+      <p> Non existen formatos!</p>
+    <% else %>
+    
+    <table id=tabla>
+      <tr>
+        <th> Nome </th>
+        <th> Campos </th>
+        <th> Subformatos </th>
+        <th></th>
+      </tr>
+    <% @formatos.each do |formato| %>
+      <tr>
+        <td> <%= formato.nome %> </td>
+        
+        <!-- Imprimimos os campos que posúe o formato -->
+        <td>
+          <% formato.campos.each_with_index do |campo,i| %>
+              <% if i!=0 %>
+              ,
+              <% end %>
+              <%= campo.tipo %> <%= campo.subtipo %>
+          <% end %>
+        </td>
+
+        <!-- Formulario para escoller os subformatos desexados -->
+        <!-- Imprímense os subformatos de cada campo -->
+        <td>
+        <%= form_tag new_diapositiva_path, :method => :get do%>
+          <% formato.subformatos.each do |subformato| %>
+            <%= check_box_tag 'subformato[]', subformato.id %>
+            <%= link_to subformato.id, subformato_path(subformato), :target => '_blank'%>
+           (<%= subformato.dispositivoloxico.relacionAspectoHorizontal %>:<%= subformato.dispositivoloxico.relacionAspectoVertical %>)
+          <br />
+          <% end %>
+          <%= hidden_field_tag :idFormato, formato.id%>
+        </td>
+        <td>
+          <%= submit_tag "Selecionar", :id => 'selecionFormato'%>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+    <% end %>
+    </div>
+
+  <% else %>
+    <h2>Crear contido </h2>
+
+    <div id="datosConGaleria">
+      <h3>Datos</h3>
+      <!-- Mensaxe informativa -->
+      <p><b>Formato: </b> <%= @formato.nome %> </p>
+      <p><b>Subformatos: </b><%= @imprimirSubformatos %></p>
+      <p><b>Dispositivos: </b><%= @imprimirDispositivos %></p>
+
+      <!-- Formulario para recoller valores -->
+      <%= form_tag diapositivas_path, :id =>'diapositivas', :html => {:multipart => true} do%>
+        <%= label_tag 'Nome' %>
+        <%= text_field_tag :nome %>
+
+        <h3>Contido</h3>
+        <% @formato.campos.zip @rexistros %>
+        <% @formato.campos.zip(@rexistros).each_with_index do |(campo,rexistro),i| %>
+          <%= label_tag campo.subtipo %>
+          <% if campo.subtipo == 'Título' || campo.subtipo == 'Subtítulo' || campo.subtipo == 'Pé' %>
+            <%= text_field_tag 'valor[]','', :size => 50 %>
+          <% elsif campo.subtipo == 'Resumo' || campo.subtipo == 'Descrición' || campo.subtipo == 'Embebido' %>
+            <%= text_area_tag('valor[]', '', :size => "48x5", :resize => "horizontal")%>
+          <% else %>
+            <div id="selecionContido">
+              <p id="cargarGaleria">
+                Escoller da galería
+                <%= image_tag 'galeria.png', :size => '20x20', :style => 'vertical-align: top;' %>
+              </p>
+              <div id="galeria">
+                <% if campo.tipo == 'Imaxe' %>
+                  <%  @imaxes.each do |imaxe| %>
+                    <%= image_tag(imaxe.gsub("app/assets/images/", ""), :size => '100x100') %>
+                  <% end %>
+                <% else %>
+                  <%  @videos.each do |video| %>
+                    <%= video_tag(video.gsub("public/videos/", ""), :size => "200x200") %></video>
+                  <% end %>
+                <% end %>
+              </div>
+
+              <%= text_field_tag 'valor[]','', :size => 50, :id => 'pathContido' %>
+              <p id="explicacion">
+                Tam&eacute;n pode facilitar unha ligaz&oacute;n externa.
+              </p>
+            </div>
+          <% end %> <!-- END if tipo campo -->
+          <%= hidden_field_tag 'idRexistro[]', rexistro.id %>
+        <% end %> <!-- END @formato.campos.each -->
+
+        <!-- Estilo desexado -->
+        <%= label_tag 'Estilo' %>
+        <% if @estilos.empty? %>
+          <p>Non existen estilos!</p>
+        <% else %>
+          <% @estilos.each do |estilo| %>
+            <%= radio_button "estilo", "", estilo.id %> <%= estilo.nome %>
+            <%= link_to 'Detalles', estilo_path(estilo), :target => '_blank' %>
+            <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: top;' %>
+          <% end %>
+        <% end %>
+        <br />
+        <!-- Necesítanse os subformatos escollidos -->
+        <% @subformatosEscollidos.each do |subformato| %>
+          <%= hidden_field_tag 'subformatos[]', subformato %>
+        <% end %>
+        <%= submit_tag 'Gardar contido' %>
+      <% end %> <!-- END form -->
+    </div>
+  <% end %> <!-- END if-->
+</div>

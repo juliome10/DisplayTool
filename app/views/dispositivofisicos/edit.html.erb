@@ -1,0 +1,72 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @dispositivofisico %>
+  <%= link_to 'Volver ó listado de dispositivos físicos', dispositivofisicos_path %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+  <%= form_tag dispositivofisico_path(@dispositivofisico), :method => :put do%>
+          <%= label_tag 'Nome'%>
+          <%= text_field_tag(:nome, @dispositivofisico.nome)%>
+          <%= label_tag 'Descrición'%>
+          <%= text_area_tag(:descricion, @dispositivofisico.descricion, :size => '40x4', :resize => 'horizontal')%>
+          <%= label_tag 'Situación'%>
+          <%= text_area_tag(:situacion, @dispositivofisico.situacion, :size => '40x4', :resize => 'horizontal')%>
+          <%= label_tag 'Tipo de dispositivo' %>
+          <%= select_tag :dispositivoLoxico, options_for_select(@opcions, @selecionado) %>
+          <%= hidden_field_tag :accion, 'datos' %>
+          <br /><br />
+          <%= submit_tag 'Gardar cambios' %>
+  <% end %>
+  </div>
+
+  <h2> Lista de reprodución </h2>
+  <div id="datos">
+    <h3>Asignación actual</h3>
+    <% if @dispositivofisico.listareproducion.nil? %>
+      <p> Por agora non existe ningunha asignación! </p>
+    <% else %>
+      <p><%= @dispositivofisico.listareproducion.nome %></p>
+      <p><%= link_to 'Detalles', listareproducion_path(@dispositivofisico.listareproducion) %>
+         <%= image_tag 'info.png', :size => '20x20', :style => 'vertical-align: top;' %>
+         <%= link_to 'Eliminar asignación', dispositivofisico_path(@dispositivofisico, :accion => 'desvincular'), :method => :put %>
+         <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: top;' %>
+      </p>
+    <% end %>
+
+    <h3> Crear unha nova asignación </h3>
+    <% if @listasPosibles.empty? %>
+      <p> Non existen listas de reprodución para un dispositivo <%= @selecionado%>, e se so hai unha xa foi asignada.</p>
+    <% else %>
+    <table id="tabla">
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Número de diapositivas</th>
+        <th></th>
+      </tr>
+    <% @listasPosibles.each do |listareproducion| %>
+      <tr>
+        <td><%= listareproducion.id %></td>
+        <td><%= listareproducion.nome %></td>
+        <td><%= listareproducion.diapositivas.length %></td>
+        <td>
+          <%= link_to 'Detalles', listareproducion, :target => '_blank' %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+    <p>
+    <%= form_tag dispositivofisico_path(@dispositivofisico), :method => :put do%>
+      <%= label_tag 'Id da lista de reprodución'%>
+      <%= select_tag(:listareproducion, options_for_select(@opcionsListas))%>
+      <%= hidden_field_tag :accion, 'lista' %>
+      <br /><br />
+      <%= submit_tag 'Asignar lista' %>
+    <% end %>
+    </p>
+  <% end %>
+  </div>
+</div>

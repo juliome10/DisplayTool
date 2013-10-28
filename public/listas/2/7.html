@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="/assets/jquery.js?body=1" type="text/javascript"></script>
+<style type="text/css">
+	body{
+		background-color: #a0a8b1;
+	}
+
+	div#campo1{
+		font-family: "Comic Sans MS";
+		font-size: 40px;
+		color: #ffffff;
+		text-align: center;
+		position: absolute;
+		left: 5.0%;
+		top: 5.0%;
+		width: 90.0%;
+		height: 5.0%;
+	}
+
+	div#imaxe2{
+		width: 90.0%;
+		height: 70.0%;
+		background-image: url("http://localhost:3000/assets/usuario/informatica.jpg");
+		position: absolute;
+		left: 5.0%;
+		top: 20.0%;
+	}
+
+</style>
+
+<div id="campo1" style="display:table"> 
+	<div style="display:table-cell; vertical-align:middle"> 
+		Esta é unha nova diapositiva
+	</div>
+</div>
+
+<div id="imaxe2"></div>
+
+<script type="text/javascript">
+	var img = document.getElementById("imaxe2");
+var fondo = new Image;
+var ruta = $("#imaxe2").css('background-image');
+ruta2 = ruta.substring(5,ruta.length-2);
+fondo.src = ruta2;
+
+var bgImgWidth = fondo.width;
+var bgImgHeight = fondo.height;
+
+if (fondo.width > fondo.height){
+	m = fondo.width;
+	n = fondo.height;
+	mprima = img.clientWidth;
+	nprima = img.clientHeight;
+}else{
+	m = fondo.height;
+	n = fondo.width;
+	mprima = img.clientHeight;
+	nprima = img.clientWidth;
+}
+
+li = nprima / n;
+ls = mprima / m;
+
+F = li + (50*(ls-li)/100);
+
+Fm = F * m;
+Fn = F * n;
+tamano = Fm + "px, " + Fn + "px;"
+$("#imaxe2").css("background-size",tamano);
+$("#imaxe2").css("background-position","center");
+$("#imaxe2").css("background-repeat","no-repeat");
+</script>
+<script type="text/javascript">
+	function redirectLink() {
+		window.location.replace("http://localhost:3000/public/listas/2/5.html");
+	}
+
+	setTimeout(function () {
+		redirectLink();
+	}, 4000);
+</script>

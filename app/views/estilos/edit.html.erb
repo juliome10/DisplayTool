@@ -1,0 +1,112 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @estilo %>
+  <%= link_to 'Volver ó listado de estilos', estilos_path %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <%= form_tag estilo_path(@estilo), :method => :put do%>
+      <%= label_tag 'Nome'%>
+      <%= text_field_tag('nome', @estilo.nome)%>
+      <%= label_tag 'Descricion'%>
+      <%= text_area_tag('descricion', @estilo.descricion, :size => "70x5", :resize => "horizontal")%>
+      <%= hidden_field_tag :accion, 'datos' %>
+      <br /><br />
+      <%= submit_tag 'Actualizar datos' %>
+      <% end %>
+  </div>
+
+  <h2> Fondo </h2>
+  <div id="datosConGaleria">
+    <div id="selectorColor">
+      <h4>Selector de Cores</h4>
+      <div id="colorpicker"></div>
+    </div>
+    <%= form_tag estilo_path(@estilo), :method => :put do  %>
+      <%= label_tag 'Cor de fondo'%>
+      <% if !@estilo.background_color.nil? %>
+        <%= text_field_tag(:background_color, @estilo.background_color) %>
+      <% else %>
+        <%= text_field_tag(:background_color, '#123456') %>
+      <% end %>
+
+      <div id="selecionContido">
+        <%= label_tag 'Imaxe de fondo'%>
+        <% if !@estilo.background_image.nil? && @estilo.background_image.length > 0%>
+          <%= image_tag @estilo.background_image %>
+        <% end %>
+        <p id="cargarGaleria">
+          Escoller da galería
+          <%= image_tag 'galeria.png', :size => '20x20', :style => 'vertical-align: top;' %>
+        </p>
+        <div id="galeria">
+            <% @imaxes.each do |imaxe| %>
+              <%= image_tag(imaxe.gsub("app/assets/images/", ""), :size => '100x100') %>
+            <% end %>
+        </div>
+        <%= text_field_tag :background_image, @estilo.background_image, :size => 50, :id => 'pathContido' %>
+        <p id="explicacion">
+          Tam&eacute;n pode facilitar unha ligaz&oacute;n externa.
+        </p>
+      </div>
+
+      <div id="propiedades">
+        <p>
+          <%= label_tag :posicion, 'Posición', :id => 'background_position_label' %>
+          <%= select_tag :background_position, options_for_select(@background_position_options, @estilo.background_position) %>
+            <%= text_field_tag :background_position_x, @estilo.background_position_x, :size => '3', :id => 'background_position_x', :placeholder => 'x' %>
+            <%= text_field_tag :background_position_y, @estilo.background_position_y, :size => '3', :id => 'background_position_y', :placeholder => 'y' %>
+        </p>
+        <p>
+          <%= label_tag :repeticion, 'Repetición', :id => 'background_repeat_label' %>
+          <%= select_tag :background_repeat, options_for_select(@background_repeat_options, @estilo.background_repeat) %>
+        </p>
+        <p>
+          <%= label_tag :tamano, 'Tamaño', :id => 'background_size_label' %>
+          <%= select_tag :background_size, options_for_select(@background_size_options, @estilo.background_size) %>
+            <%= text_field_tag :background_size_x, @estilo.background_size_x, :size => '3', :id => 'background_size_x', :placeholder => 'x' %>
+            <%= text_field_tag :background_size_y, @estilo.background_size_y, :size => '3', :id => 'background_size_y', :placeholder => 'y' %>
+            <%= text_field_tag :background_size_val, @estilo.background_size_val, :size => '5', :id => 'background_size_val', :placeholder => 'valor' %>
+        </p>
+      </div>
+      <%= hidden_field_tag :accion, 'fondo' %>
+      <p>
+        <%= submit_tag "Actualizar datos" %>
+      </p>
+    <% end %>
+  </div>
+
+  <h2> Campos </h2>
+  <div id="datos">
+    <table id="tabla">
+      <tr>
+        <th> Tipo </th>
+        <th> Subtipo </th>
+        <th> Fonte</th>
+        <th> Cor </th>
+        <th> Tamaño </th>
+        <th> Aliñado Horizontal </th>
+        <th> Aliñado Vertical </th>
+      </tr>
+      <%= form_tag estilo_path(@estilo), :method => :put do%>
+        <% @estilo.campos.zip @valores %>
+        <% @estilo.campos.zip(@valores).each do |campo,rexistro| %>
+          <tr>
+            <td> <%= campo.tipo %> </td>
+            <td> <%= campo.subtipo %> </td>
+            <td> <%= select_tag 'fontes[]', options_for_select(@fontes, rexistro.fonte) %></td>
+            <td> <%= text_field_tag 'cores[]', rexistro.cor %></td>
+            <td> <%= text_field_tag 'tamanos[]', rexistro.tamano, :size => '7' %></td>
+            <td> <%= select_tag 'alinadosH[]', options_for_select(@alinadosHorizontal, rexistro.alinadoHorizontal) %></td>
+            <td> <%= select_tag 'alinadosV[]', options_for_select(@alinadosVertical, rexistro.alinadoVertical) %></td>
+          </tr>
+          <%= hidden_field_tag 'idCampo[]', campo.id %>
+        <% end %>
+          <%= hidden_field_tag :accion, 'campos' %>
+    </table>
+    <br /><br />
+    <%= submit_tag 'Actualizar datos' %>
+    <% end %>
+  </div>
+</div>

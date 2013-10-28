@@ -1,0 +1,31 @@
+<h1>Listado de Dispositivos Lóxicos</h1>
+
+<table id="formatos">
+  <tr>
+    <th>Id</th>
+    <th>R.A. Horizontal</th>
+    <th>R.A. Vertical</th>
+    <th>Riqueza</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @dispositivoloxicos.each do |dispositivoloxico| %>
+  <tr>
+    <td><%= dispositivoloxico.id%></td>
+    <td><%= dispositivoloxico.relacionAspectoHorizontal%></td>
+    <td><%= dispositivoloxico.relacionAspectoVertical%></td>
+    <td><%= dispositivoloxico.riqueza%></td>
+    <td><%= link_to 'Ver', dispositivoloxico %></td>
+    <td><%= link_to 'Editar', edit_dispositivoloxico_path(dispositivoloxico) %></td>
+    <td><%= link_to 'Eliminar', dispositivoloxico, method: :delete, data: { confirm: 'Seguro?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Agregar novo dispositivo', new_dispositivoloxico_path %>
+<br><br>
+<%= link_to 'Volver ó inicio', "/" %>

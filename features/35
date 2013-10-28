@@ -1,0 +1,13 @@
+# encoding: utf-8
+Feature: 35. Interface adaptable ó tamaño da pantalla
+  Como usuario da aplicación
+  Quero que a interface gráfica se adapte ó tamaño da pantalla
+  Para poder empregar a aplicación en pantallas de diversos tamaños
+
+  Scenario: Interface adaptable ó tamaño da pantalla[90m # 35.feature:8[0m
+    [32mGiven I am on [32m[1m"Diapositivas" page[0m[0m[32m[90m                # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen interface change with css properties[90m        # step_definitions/web_steps.rb:315[0m[0m
+
+1 scenario ([32m1 passed[0m)
+2 steps ([32m2 passed[0m)
+0m0.798s

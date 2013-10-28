@@ -1,0 +1,17 @@
+<%= form_for(@familia_formato) do |f| %>
+  <% if @familia_formato.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@familia_formato.errors.count, "error") %> prohibited this familia_formato from being saved:</h2>
+
+      <ul>
+      <% @familia_formato.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

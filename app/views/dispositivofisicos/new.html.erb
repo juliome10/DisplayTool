@@ -1,0 +1,24 @@
+<div id="enlaces">
+  <%= link_to "Volver á xestión de dispositivos físicos", dispositivofisicos_path %>
+</div>
+
+<div id="paxina">
+  <h2>Novo Dispositivo físico</h2>
+
+  <div id="datos">
+    <%= form_tag dispositivofisicos_path do %>
+      <h3> Datos </h3>
+      <%= label_tag 'Nome'%>
+      <%= text_field_tag :nome %>
+      <%= label_tag 'Descrición' %>
+      <%= text_area_tag :descricion, nil, :size => '40x4', :resize => 'horizontal' %>
+      <%= label_tag 'Situación' %>
+      <%= text_area_tag :situacion, nil, :size => '40x4', :resize => 'horizontal'%>
+      <h3> Dispositivo lóxico </h3>
+      <p> Selecione o tipo de dispositivo lóxico ó que pertencerá</p>
+      <%= select_tag :dispositivoLoxico, options_for_select(@opcions) %>
+      <br /><br />
+      <%= submit_tag "Gardar dispositivo" %>
+    <% end %>
+  </div>
+</div>

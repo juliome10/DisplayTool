@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<h2> Detalles sobre <%= @formato.id %> </h2>
+
+<h3> Datos: </h3>
+
+<ul id="datos">
+	<li>
+    		Id:
+    		<ld><%= @formato.id%></ld>
+	</li>
+	<li>
+    		Nome:
+    		<ld><%= @formato.nome%></ld>
+	</li>
+</ul>
+
+<h3> Descricion: </h3>
+<p id="datos"> <%= @formato.descricion %>
+
+<h3> Campos: </h3>
+
+<% if @formato.campos.empty? then %>
+	Non existen campos!
+<% else %>
+	<% @formato.campos.each do |campo| %>
+	<ul id="details">
+		<li>
+    			Id:
+    			<ld><%= campo.id%></ld>
+		</li>
+		<li>
+    			Tipo:
+    			<ld><%= campo.tipo%></ld>
+		</li>
+		<li>
+    			Subtipo:
+    			<ld><%= campo.subtipo%></ld>
+		</li>
+	</ul>
+	<% end %>
+<% end %>
+<p>
+<br>
+<%= link_to "Editar", edit_formato_path(@formato) %>
+<br>
+<%= button_to "Eliminar", {:controller => "formatos", :action => "destroy", :id => @formato.id, :confirm => "Seguro que desexa eliminalo?"}, :method => :delete %>
+<br>
+<%= link_to "Volver á lista de formatos", formatos_path %>
+</p>

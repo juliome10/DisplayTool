@@ -1,0 +1,21 @@
+# encoding: utf-8
+Feature: 1. Rexistro dun dispositivo lóxico
+  Como usuario da aplicación
+  Quero poder rexistrar un dispositivo lóxico
+  Para poder ampliar o catálogo de dispositivos dispoñible
+
+  Scenario: Rexistro dun dispositivo lóxico.[90m                       # 01.feature:8[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                    # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mDispositivos lóxicos[0m[0m[32m"[90m                           # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Dispositivos lóxicos" page[0m[0m[32m[90m                # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEngadir un novo dispositivo[0m[0m[32m"[90m                    # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for create a new "Dispositivo lóxico"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I fill in "[32m[1mrelacionAspectoHorizontal[0m[0m[32m" with "[32m[1m16[0m[0m[32m"[90m           # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mrelacionAspectoVertical[0m[0m[32m" with "[32m[1m9[0m[0m[32m"[90m               # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mGardar dispositivo[0m[0m[32m"[90m                               # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1m"Dispositivos lóxicos" page[0m[0m[32m[90m                # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                                    # step_definitions/web_steps.rb:291[0m[0m
+
+1 scenario ([32m1 passed[0m)
+10 steps ([32m10 passed[0m)
+0m1.182s

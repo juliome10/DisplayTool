@@ -1,0 +1,78 @@
+<% if session[:notice] %>
+<div id="notice"><% session[:notice] %> </div>
+<% end %>
+
+<h1>Familia do formato <%= params[:idFormato]%> </h1>
+
+<h2> Previsualización </h2>
+<canvas id="canvas" width="320" height="240" style="border:1px solid #000000;"> Incompatibilidade con Canvas HTML5</canvas> 
+
+<canvas id="canvas2" width="240" height="320" style="border:1px solid #000000;"> Incompatibilidade con Canvas HTML5</canvas> 
+
+<canvas id="canvas3" width="320" height="180" style="border:1px solid #000000;"> Incompatibilidade con Canvas HTML5</canvas>
+<!--p id="canvaspe">Previsualización para os dispositivos 4:3, 3:4 e 16:9</p-->
+<table id="formatos">
+  <tr>
+    <th>Id Formato</th>
+    <th>Id Campo</th>
+    <th>Id Dispositivo</th>
+    <th>Id Subformato</th>
+    <th>Posición X</th>
+    <th>Posición Y</th>
+    <th>Lonxitude X</th>
+    <th>Lonxitude Y</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @subformatos.each do |subformato| %>
+  <tr>
+    <td><%= subformato.formato_id %></td>
+    <td id="idCampo"><%= subformato.campo_id %></td>
+    <td id="idDispositivo"><%= subformato.dispositivoloxico_id %></td>
+    <td><%= subformato.id %></td>
+    <%= form_tag subformato_path(subformato), :method => :put do %>
+    <td id="posicionX"><%= text_field_tag("posicionX", value = subformato.posicionX, :size => 5, :onclick => "pintarFila(this);") %></td>
+    <td id="posicionY"><%= text_field_tag("posicionY", value = subformato.posicionY, :size => 5, :onclick => "pintarFila(this);") %></td>
+    <td id="lonxitudeX"><%= text_field_tag("lonxitudeX", value = subformato.lonxitudeX, :size => 5, :onclick => "pintarFila(this);") %></td>
+    <td id="lonxitudeY"><%= text_field_tag("lonxitudeY", value = subformato.lonxitudeY, :size => 5, :onclick => "pintarFila(this);") %></td>
+    <td><%= submit_tag 'Gardar' %></td>
+	<% end %>
+    <td><%= link_to 'Eliminar', subformato, method: :delete, data: { confirm: 'Seguro?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<span id="aviso">Debe proporcionar os valores de posición e lonxitude indicados en vermello.</span>
+
+<script type="text/javascript">
+	var contador=0;	
+	var caixas = document.getElementById("formatos").getElementsByTagName('input');
+	for (var i=0; i<caixas.length; i++){
+		if(caixas[i].value == ""){
+			caixas[i].style.background = "red";
+			contador++; 			
+		}
+	}	
+	var aviso = document.getElementById("aviso");
+	if(contador>0){
+		aviso.style.display = "block";
+	}else{
+		aviso.style.display = "none";
+	}
+</script>
+
+<br><br>
+
+ 
+
+
+<script>init();</script>
+
+<br><br>
+<% if params[:idFormato].nil?%>
+<% else%>
+<%= link_to 'Volver ó editor de formato', edit_formato_path(:id => params[:idFormato])%>
+<br><br>
+<% end %>
+<%= link_to 'Volver ó listado de formatos', formatos_path %>

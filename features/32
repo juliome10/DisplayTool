@@ -1,0 +1,23 @@
+# encoding: utf-8
+Feature: 32. Eliminación dunha lista de reprodución
+  Como usuario da aplicación
+  Quero poder eliminar unha lista de reprodución
+  Para desvinculala cando deixe de ser necesaria
+
+  Background: datos almacenados na lista de reprodución[90m # 32.feature:8[0m
+    [32mGiven the following listareproducions exist:[90m        # step_definitions/listareproducions_steps.rb:3[0m[0m
+      | [32mnome    [0m[0m |[0m
+      | [32mLista Un[0m[0m |[0m
+
+  Scenario: Eliminación dunha lista de reprodución.[90m  # 32.feature:13[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                      # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mListas de reprodución[0m[0m[32m"[90m            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Listas de reprodución" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEliminar[0m[0m[32m"[90m                         # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Listas de reprodución" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                      # step_definitions/web_steps.rb:291[0m[0m
+    [32mAnd there is no listas de reprodución[90m            # step_definitions/listareproducions_steps.rb:16[0m[0m
+
+1 scenario ([32m1 passed[0m)
+8 steps ([32m8 passed[0m)
+0m1.574s

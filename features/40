@@ -1,0 +1,14 @@
+# encoding: utf-8
+Feature: 40. Galería multimedia
+  Como usuario da aplicación
+  Quero poder consultar os contidos multimedia aloxados no servidor
+  Para dispoñer dun catálogo destos
+
+  Scenario: Galería multimedia.[90m         # 40.feature:8[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m         # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mArquivos[0m[0m[32m"[90m            # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Arquivos" page[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+
+1 scenario ([32m1 passed[0m)
+3 steps ([32m3 passed[0m)
+0m0.707s

@@ -1,0 +1,44 @@
+<div id="enlaces">
+  <%= link_to 'Engadir estilo', new_estilo_path %>
+  <%= link_to 'Volver ó inicio', "/" %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+  <h2>Listado de estilos</h2>
+
+  <div id="datos">
+  <%  if @estilos.empty? %>
+    <p> Non existen estilos! </p>
+  <% else %>
+    <table id="tabla">
+      <tr>
+        <th> Nome </th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    <% @estilos.each do |estilo| %>
+      <tr>
+        <td><%= estilo.nome %></td>
+        <td>
+          <%= link_to 'Amosar', estilo %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Editar', edit_estilo_path(estilo) %>
+          <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Eliminar', estilo, method: :delete, data: { confirm: 'Seguro?' } %>
+          <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
+  </div>
+</div>

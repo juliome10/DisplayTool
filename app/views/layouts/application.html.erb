@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TFG</title>
+  <%= javascript_include_tag "previsualizacion" %>
+  <%= javascript_include_tag "farbtastic" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= stylesheet_link_tag "farbtastic" %>
+  <%= csrf_meta_tags %>
+   <link rel="stylesheet" href="farbtastic.css" type="text/css" />
+</head>
+<body>
+  <div id="cabeceira">
+    <h1>Display tool</h1>
+  </div>
+
+  <div id="menuSuperior">
+    <%= link_to 'Dispositivos lóxicos', dispositivoloxicos_path%>
+    <%= link_to 'Dispositivos físicos', dispositivofisicos_path%>
+    <%= link_to 'Formatos', formatos_path%>
+    <%= link_to 'Diapositivas', diapositivas_path%>
+    <%= link_to 'Listas de reprodución', listareproducions_path %>
+    <%= link_to 'Estilos', estilos_path %>
+    <%= link_to 'Arquivos', uploads_path %>
+    <%= link_to 'Parámetros de configuración', parametros_path%>
+  </div>
+
+  <div id="contido">
+    <%= yield %>
+  </div>
+  
+  <%= javascript_include_tag "application" %>
+</body>
+</html>

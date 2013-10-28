@@ -1,0 +1,15 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_parametro_path(@parametro) %>
+  <%= link_to 'Volver ó listado de parámetros', parametros_path %>
+  <%= link_to 'Volver ó inicio', '/' %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+
+  <div id="datos">
+    <p><b>Nome: </b><%= @parametro.nome %></p>
+    <p><b>Valor: </b><%= @parametro.valor %></p>
+    <p><b>Descrición: </b><%= @parametro.descricion %></p>
+  </div>
+</div>

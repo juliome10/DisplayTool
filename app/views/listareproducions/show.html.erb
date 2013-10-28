@@ -1,0 +1,50 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_listareproducion_path(@listareproducion) %>
+  <%= link_to 'Volver á listaxe', listareproducions_path %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Nome: </b><%= @listareproducion.nome %></p>
+    <p><b>Url comezo: </b><%= link_to @listareproducion.urlComezo, @listareproducion.urlComezo %></p>
+  </div>
+
+  <h2> Diapositivas contidas </h2>
+  <div id="datos">
+    <% if @listareproducion.diapositivas.empty? %>
+      <p> A lista de reprodución non contén diapositivas </p>
+    <%  else %>
+      <table id="tabla">
+        <tr>
+          <th>Id</th>
+          <th>Formato</th>
+          <th>Dispositivo</th>
+          <th>Estilo</th>
+          <th>Url</th>
+          <th>Detalles</th>
+          <th>Orde</th>
+          <th>Factor tempo</th>
+        </tr>
+        <% @listareproducion_diapositivas.zip @listareproducion_rexistros %>
+        <% @listareproducion_formatos.zip @listareproducion_formatos  %>
+        <% @listareproducion_diapositivas.zip(@listareproducion_rexistros, @listareproducion_formatos).each do |diapositiva,rexistro,formato| %>
+        <tr>
+          <td><%= diapositiva.nome %></td>
+          <td><%= formato.nome %></td>
+          <td><%= @dispositivo.relacionAspectoHorizontal %>:<%= @dispositivo.relacionAspectoVertical %></td>
+          <td><%= diapositiva.estilo.nome %></td>
+          <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+          <td><%= link_to 'Amosar', diapositiva_path(diapositiva) %></td>
+          <td><%= rexistro.orde %></td>
+          <td><%= rexistro.factorTempo %></td>
+        </tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+</div>

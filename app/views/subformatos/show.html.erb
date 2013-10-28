@@ -1,0 +1,62 @@
+<div id="enlaces">
+  <%= link_to 'Volver ó formato', @subformato.formato %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Formato ó que pertence: </b><%= @subformato.formato.nome %></p>
+    <p><b>Deseñado para dispositivo: </b><%= @subformato.dispositivoloxico.relacionAspectoHorizontal %>:<%= @subformato.dispositivoloxico.relacionAspectoVertical %></p>
+  </div>
+
+  <h2> Campos </h2>
+  <div id="datos">
+  <% if @subformato.campos_formatos_subformatos.empty? %>
+    <p> O formato non contén campos! </p>
+  <%  else %>
+    <table id="tabla">
+      <tr>
+        <th>Tipo</th>
+        <th>Subtipo</th>
+        <th>Posición X (%)</th>
+        <th>Posición Y (%)</th>
+        <th>Lonxitude X (%)</th>
+        <th>Lonxitude Y (%)</th>
+        <th></th>
+      </tr>
+      <% @subformato.campos_formatos_subformatos.each_with_index do |campos_formatos,i| %>
+        <tr>
+          <% @campo = Campo.find_by_id(campos_formatos.campos_formatos_campo_id) %>
+          <td><%= @campo.tipo %></td>
+          <td><%= @campo.subtipo %></td>
+            <%= form_tag subformato_path(@subformato), :method => :put do %>
+          <td id="posicionX"><%= text_field_tag("posicionX", value = campos_formatos.posicionX, :size => 5, :onclick => "pintarFila(" + i.to_s + ");") %></td>
+          <td id="posicionY"><%= text_field_tag("posicionY", value = campos_formatos.posicionY, :size => 5, :onclick => "pintarFila(" + i.to_s + ");") %></td>
+          <td id="lonxitudeX"><%= text_field_tag("lonxitudeX", value = campos_formatos.lonxitudeX, :size => 5, :onclick => "pintarFila(" + i.to_s + ");") %></td>
+          <td id="lonxitudeY"><%= text_field_tag("lonxitudeY", value = campos_formatos.lonxitudeY, :size => 5, :onclick => "pintarFila(" + i.to_s + ");") %></td>
+          <%= hidden_field_tag :rexistro_id, campos_formatos.id %>
+          <%= hidden_field_tag :subformato_id, @subformato.id %>
+          <%= hidden_field_tag :formato_id, @subformato.formato.id %>
+          <%= hidden_field_tag :campo_id, @campo.id %>
+          <td>
+              <%= submit_tag 'Actualizar' %>
+          </td>
+            <% end %>
+        </tr>
+      <% end %>
+    </table>
+  <% end %>
+  </div>
+
+  <h2> Previsualización </h2>
+  <div id="datos">
+    <p id="medidas"><b>Miniatura: </b>(<%= @width%>x<%= @height%>)</p>
+    <canvas id="canvas" width="<%= @width %>" height="<%= @height %>" style="border:1px solid #000000;"> Incompatibilidade con Canvas HTML5.</canvas>
+  </div>
+</div>
+<script> init(); </script>

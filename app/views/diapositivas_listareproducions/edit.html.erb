@@ -1,0 +1,18 @@
+<div id="enlaces">
+  <%= link_to 'Volver á lista de reproducion', edit_listareproducion_path(@listareproducion)%>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Lista de reprodución: </b> <%= @listareproducion.nome %> </p>
+    <p><b>Diapositiva: </b> <%= @diapositiva.nome %></p>
+    <%= form_tag diapositivas_listareproducion_path(@rexistroActual), :method => :put do%>
+      <%= hidden_field_tag :accion, 'modificar' %>
+      <%= label_tag 'Factor Tempo' %>
+      <%= text_field_tag 'factorTempo', @rexistroActual.factorTempo %>
+      <br /><br />
+      <%= submit_tag 'Actualizar' %>
+    <% end %>
+  </div>
+</div>

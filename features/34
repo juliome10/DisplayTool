@@ -1,0 +1,29 @@
+# encoding: utf-8
+Feature: 34. Menú visible na interface
+  Como usuario da aplicación
+  Quero ter un menú de opcións sempre visible
+  Para unha navegación máis cómoda pola aplicación
+
+  Scenario: Menú visible na interface[90m                # 34.feature:8[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                      # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Dispositivos lóxicos" page[0m[0m[32m[90m        # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Dispositivos físicos" page[0m[0m[32m[90m        # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Formatos" page[0m[0m[32m[90m                    # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Diapositivas" page[0m[0m[32m[90m                # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Listas de reprodución" page[0m[0m[32m[90m       # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Estilos" page[0m[0m[32m[90m                     # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Arquivos" page[0m[0m[32m[90m                    # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+    [32mGiven I am on [32m[1m"Parámetros de configuración" page[0m[0m[32m[90m # step_definitions/web_steps.rb:46[0m[0m
+    [32mThen there is a menu[90m                             # step_definitions/web_steps.rb:310[0m[0m
+
+1 scenario ([32m1 passed[0m)
+18 steps ([32m18 passed[0m)
+0m0.834s

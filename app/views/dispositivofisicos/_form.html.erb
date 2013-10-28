@@ -1,0 +1,17 @@
+<%= form_for(@dispositivofisico) do |f| %>
+  <% if @dispositivofisico.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dispositivofisico.errors.count, "error") %> prohibited this dispositivofisico from being saved:</h2>
+
+      <ul>
+      <% @dispositivofisico.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

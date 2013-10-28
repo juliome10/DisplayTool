@@ -1,0 +1,53 @@
+<% if flash[:notice] %>
+  <div id="notice"><%= flash[:notice] %></div>
+<% end %>
+
+<script type="text/javascript">
+$('#notice').delay(1500).fadeOut(1000);
+</script>
+
+<h1> Editar Formato Existente </h1>
+<h2> Datos </h2>
+<div id="datos">
+<%= form_tag formato_path(@formato), :method => :put do%>
+	<%= label_tag  'Id'%>
+	<%= text_field_tag("id", @formato.id, :disabled => true)%> 
+	<%= label_tag 'Nome'%>
+	<%= text_field_tag("nome", @formato.nome)%>
+	<%= label_tag 'Descricion'%>
+	<%= text_area_tag("descricion", @formato.descricion, :size => "70x5", :resizable => "false")%>
+	<br><br>
+	<%= submit_tag "Gardar cambios" %>
+<% end %>
+
+</div>
+<h2> Campos </h2>
+<% if @formato.campos.empty? then %>
+	Non existen campos!
+<% else %>
+	<table id="formatos">
+	<tr>
+		<th> Id </th>
+		<th> Tipo </th>
+		<th> Subtipo </th>
+                <th> </th>
+                <th> </th>
+	</tr>
+        <% @formato.campos.each do |campo| %>
+            <tr>
+              <td> <%= campo.id %> </td>
+              <td> <%= campo.tipo %> </td>
+              <td> <%= campo.subtipo %> </td>
+              <td> <%= button_to "Editar", {:controller => "campos", :action => "edit", :id => campo.id}, :method => :get %> </td>
+              <td> <%= button_to "Eliminar", {:controller => "campos", :action => "destroy", :id => campo.id}, :idFormato => @formato.id, :method => :delete %> </td>
+            </tr>
+	<% end %>
+        </table>
+<% end %>
+<br><br>
+<%= link_to "Engadir campo", new_campo_path(:idFormato => @formato.id) %>
+<br><br>
+<% session[:campos]=@formato.campos %>
+<%= link_to "Consultar familia de formatos", {:controller => "subformatos", :action => "new", :idFormato => @formato.id} %>
+<br><br>
+<%= link_to "Volver á lista de formatos", formatos_path %>

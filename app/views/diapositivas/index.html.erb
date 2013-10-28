@@ -1,0 +1,60 @@
+<div id="enlaces">
+  <%= link_to 'Nova diapositiva', new_diapositiva_path %>
+  <%= link_to 'Volver ó inicio', "/" %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion]%></div>
+<% end %>
+
+<div id="paxina">
+  <h2>Listado de diapositivas</h2>
+
+  <div id="datos">
+    <% if @diapositivas.empty? %>
+     Non existen diapositivas!
+    <% else %>
+     <table id="tabla">
+      <tr>
+        <th>Nome</th>
+        <th>Formato</th>
+        <th>Dispositivo</th>
+        <th>Estilo</th>
+        <th>Url</th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    <% @diapositivas.zip @diapositivas_dispositivo %>
+    <% @diapositivas.zip @diapositivas_formato %>
+    <% @diapositivas.zip(@diapositivas_dispositivo,@diapositivas_formato).each do |diapositiva,dispositivo,formato| %>
+      <tr>
+            <td><%= diapositiva.nome %></td>
+            <td><%= formato.nome %></td>
+            <td><%= dispositivo %></td>
+            <td>
+              <% if diapositiva.estilo.nil? %>
+                Sen estilo definido
+              <% else %>
+                <%= diapositiva.estilo.nome %>
+              <% end %>
+            </td>
+            <td><%= link_to diapositiva.url,  diapositiva.url, :target => '_blank' %></td>
+            <td>
+              <%= link_to 'Amosar', diapositiva_path(diapositiva) %>
+              <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+            </td>
+            <td>
+              <%= link_to 'Editar', edit_diapositiva_path(diapositiva) %>
+              <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+            </td>
+            <td>
+              <%= link_to 'Eliminar', diapositiva, method: :delete, data: { confirm: 'Seguro?' } %>
+              <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+            </td>
+      </tr>
+    <% end %>
+    </table>
+    <%end%>
+  </div>
+</div>

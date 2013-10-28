@@ -1,0 +1,35 @@
+<div id="enlaces">
+  <%= link_to 'Editar', edit_diapositiva_path(@diapositiva) %>  
+  <%= link_to 'Volver ó listado de diapositivas', diapositivas_path %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+    <p><b>Nome: </b> <%= @diapositiva.nome %></p>
+    <p><b>Url: </b> <%= link_to @diapositiva.url, @diapositiva.url, :target => '_blank' %></p>
+    <p><b>Diapositiva con formato: </b><%= @diapositiva_formato.nome %></p>
+    <p><b>Diapositiva para dispositivo: </b><%= @diapositiva_dispositivo%></p>
+    <p><b>Estilo: </b><%= @diapositiva.estilo.nome %></p>
+  </div>
+
+  <h2> Contido </h2>
+  <div id="datos">
+    <% @diapositiva.campos_formatos_subformatos_diapositivas.zip @diapositiva_campos %>
+    <% @diapositiva.campos_formatos_subformatos_diapositivas.zip(@diapositiva_campos).each do |rexistro,campo| %>
+      <% @campo = Campo.find(rexistro.campos_formatos_subformatos_campos_formatos_campo_id) %>
+      <p><b><%= campo.subtipo %></b></p>
+      <% if campo.tipo == 'Imaxe' %>
+        <%=  image_tag rexistro.contido, :size => '160x120'%>
+      <% elsif campo.tipo == 'Vídeo' %>
+        <% if campo.subtipo == 'Local' %>
+          <%= video_tag(rexistro.contido, :controls => true)%>
+        <% elsif campo.subtipo == 'Embebido' %>
+          <%= rexistro.contido.html_safe %>
+        <% end %>
+      <% else %>
+        <p><%= rexistro.contido %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>

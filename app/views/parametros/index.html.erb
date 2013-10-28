@@ -1,0 +1,40 @@
+<div id="enlaces">
+  <%= link_to 'Volver ó inicio', '/' %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+  <h2>Listaxe de parámetros de configuración</h2>
+
+  <div id="datos">
+    <% if @parametros.empty? %>
+      <p>Non existen parámetros de configuración</p>
+    <% else %>
+    <table id="tabla">
+    <tr>
+      <th>Nome</th>
+      <th>Valor</th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @parametros.each do |parametro| %>
+      <tr>
+        <td><%= parametro.nome %></td>
+        <td><%= parametro.valor %></td>
+        <td>
+          <%= link_to 'Amosar', parametro %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Editar', edit_parametro_path(parametro) %>
+          <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+    <% end %>
+  </div>
+</div>

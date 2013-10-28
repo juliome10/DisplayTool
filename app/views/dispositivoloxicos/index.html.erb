@@ -1,0 +1,42 @@
+<div id="enlaces">
+<%= link_to 'Engadir un novo dispositivo', new_dispositivoloxico_path %>
+<%= link_to 'Volver ó inicio', "/" %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+  <h2>Listado de Dispositivos Lóxicos</h2>
+
+  <div id="datos">
+    <table id="tabla">
+    <tr>
+      <th>R.A. Horizontal</th>
+      <th>R.A. Vertical</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @dispositivoloxicos.each do |dispositivoloxico| %>
+      <tr>
+        <td><%= dispositivoloxico.relacionAspectoHorizontal%></td>
+        <td><%= dispositivoloxico.relacionAspectoVertical%></td>
+        <td>
+          <%= link_to 'Amosar', {:controller => 'dispositivoloxicos', :action => 'show', :id => dispositivoloxico.id}, :method => :get %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Editar', {:controller => 'dispositivoloxicos', :action => 'edit', :id => dispositivoloxico.id}, :method => :get %>
+          <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Eliminar', dispositivoloxico, method: :delete, data: { confirm: 'Seguro?' } %>
+          <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div id="enlaces">
+  <%= link_to 'Amosar', @dispositivoloxico %>
+  <%= link_to 'Volver ó listado de dispositivos lóxicos', dispositivoloxicos_path %>
+</div>
+
+<div id="paxina">
+  <h2> Datos </h2>
+  <div id="datos">
+  <%= form_tag dispositivoloxico_path(@dispositivoloxico), :method => :put do%>
+          <%= label_tag 'Relación de aspecto horizontal'%>
+          <%= text_field_tag('relacionAspectoHorizontal', @dispositivoloxico.relacionAspectoHorizontal)%>
+          <%= label_tag 'Relación de aspecto vertical'%>
+          <%= text_field_tag('relacionAspectoVertical', @dispositivoloxico.relacionAspectoVertical)%>
+          <br /><br />
+          <%= submit_tag 'Gardar cambios' %>
+  <% end %>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+html, body {
+  margin: 0;
+  background-color: #ffffff;
+  color: DarkSlateGrey;
+  font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333333;
+}
+head{
+  #background-image: url("assets/images/rails.png");
+  #background-repeat: no-repeat;
+  #background-position: top left;
+  #height: 64px;
+}
+div#main {
+  margin: 0;
+  padding: 0 20px 20px;
+}
+div#datos{
+  margin: 45px 45px 45px 45px;
+  #width: 90%;
+  background: #f5f2f0;
+}
+a {
+  color: #0088cc;
+  text-decoration: none;
+}
+a:hover,
+a:focus{
+  color: #005580;
+  text-decoration: underline;
+}
+h1 {
+  margin: 10px 0;
+  font-family: inherit;
+  font-weight: bold;
+  line-height: 20px;
+  color: inherit;
+  text-rendering: optimizelegibility;
+}
+h1.title {
+  margin: 0 0 1em;
+  padding: 10px;
+  background-color: orange;
+  color: white;
+  border-bottom: 4px solid gold;
+  font-size: 2em;
+  font-style: normal;
+}
+table#formatos {
+  font-size: 14px;
+  background: #fff;
+  margin: 45px;
+  border-collapse: collapse;
+  width: 80%;
+  border: 1px solid #69c;
+  border-radius: 2px;
+}
+table#formatos th {
+  font-weight: normal;
+  color: #039;
+  padding: 12px 17px 12px 17px;
+  border-bottom: 2px solid #69c;
+  font-size: 14px;
+}
+table#formatos th, table#formatos td {
+  padding: 7px 17px 7px 17px;
+  color: #669;
+  text-align: left;
+}
+table#formatos tbody tr:hover td{
+  color: #339;
+  background: #d0dafd;
+}
+table#formatos th.hilite {
+  background-color: yellow;
+}
+div#notice {
+  background: rosybrown;
+  margin: 1em 0;
+  padding: 4px;
+  font-size: 20px;
+}
+form label {
+  display: block;
+  line-height: 25px;
+  font-weight: bold;
+  #color: maroon;
+}

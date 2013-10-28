@@ -1,0 +1,48 @@
+<div id="enlaces">
+<%= link_to 'Engadir un novo dispositivo', new_dispositivofisico_path %>
+<%= link_to 'Volver ó inicio', "/" %>
+</div>
+
+<% if flash[:notificacion] %>
+  <div id="notificacion"><%= flash[:notificacion] %></div>
+<% end %>
+
+<div id="paxina">
+  <h2>Listado de Dispositivos Físicos</h2>
+
+  <div id="datos">
+  <% if @dispositivofisicos.empty? %>
+    <p> Non existen dispositivos físicos!</p>
+  <% else %>
+    <table id="tabla">
+    <tr>
+      <th>Nome</th>
+      <th>Situación</th>
+      <th>Tipo de dispositivo</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    <% @dispositivofisicos.each do |dispositivofisico| %>
+      <tr>
+        <td><%= dispositivofisico.nome%></td>
+        <td><%= dispositivofisico.situacion%></td>
+        <td><%= dispositivofisico.dispositivoloxico.relacionAspectoHorizontal%>:<%= dispositivofisico.dispositivoloxico.relacionAspectoVertical%></td>
+        <td>
+          <%= link_to 'Amosar', {:controller => 'dispositivofisicos', :action => 'show', :id => dispositivofisico.id}, :method => :get %>
+          <%= image_tag 'amosar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Editar', {:controller => 'dispositivofisicos', :action => 'edit', :id => dispositivofisico.id}, :method => :get %>
+          <%= image_tag 'editar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+        <td>
+          <%= link_to 'Eliminar', dispositivofisico, method: :delete, data: { confirm: 'Seguro?' } %>
+          <%= image_tag 'eliminar3.png', :size => '20x20', :style => 'vertical-align: bottom;' %>
+        </td>
+      </tr>
+    <% end %>
+    </table>
+  <% end %>
+  </div>
+</div>

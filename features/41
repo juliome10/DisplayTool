@@ -1,0 +1,18 @@
+# encoding: utf-8
+Feature: 41. Escoller contidos da galería
+  Como usuario da aplicación
+  Quero poder escoller contidos aloxados no servidor cando sexa necesario
+  Para poder empregalos cando sexa posible
+
+  Scenario: Escoller contidos da galería na creación dun estilo[90m # 41.feature:8[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                 # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mEstilos[0m[0m[32m"[90m                                     # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Estilos" page[0m[0m[32m[90m                          # step_definitions/web_steps.rb:255[0m[0m
+    [32mWhen I follow "[32m[1mEngadir estilo[0m[0m[32m"[90m                              # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for create a new "Estilo"[0m[0m[32m[90m          # step_definitions/web_steps.rb:255[0m[0m
+    [32mWhen I click on "[32m[1mEscoller da galería[0m[0m[32m"[90m                       # step_definitions/web_steps.rb:74[0m[0m
+    [32mThen I should see a "Galería"[90m                               # step_definitions/web_steps.rb:305[0m[0m
+
+1 scenario ([32m1 passed[0m)
+7 steps ([32m7 passed[0m)
+0m0.857s

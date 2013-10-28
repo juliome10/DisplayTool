@@ -1,0 +1,26 @@
+# encoding: utf-8
+Feature: 27. Modificación dunha lista de reprodución
+  Como usuario da aplicación
+  Quero poder modificar os datos dunha lista de reprodución
+  Para poder cambiar a súa descrición
+
+  Background: datos almacenados na base de datos[90m # 27.feature:8[0m
+    [32mGiven the following listareproducions exist:[90m # step_definitions/listareproducions_steps.rb:3[0m[0m
+      | [32mnome    [0m[0m |[0m
+      | [32mLista Un[0m[0m |[0m
+
+  Scenario: Modificación dunha lista de reprodución.[90m                                             # 27.feature:14[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                                                  # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mListas de reprodución[0m[0m[32m"[90m                                                        # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Listas de reprodución" page[0m[0m[32m[90m                                             # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEditar[0m[0m[32m"[90m                                                                       # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Lista de reprodución" called "Lista Un"[0m[0m[32m[90m                   # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd the "[32m[1mnome[0m[0m[32m" field should contain "[32m[1mLista Un[0m[0m[32m"[90m                                               # step_definitions/web_steps.rb:161[0m[0m
+    [32mWhen I fill in "[32m[1mnome[0m[0m[32m" with "[32m[1mNova Lista Un[0m[0m[32m"[90m                                                   # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mActualizar datos[0m[0m[32m"[90m                                                               # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1mpage for view details from "Lista de reprodución" called "Nova Lista Un"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+    [32mAnd there is a notification[90m                                                                  # step_definitions/web_steps.rb:291[0m[0m
+
+1 scenario ([32m1 passed[0m)
+11 steps ([32m11 passed[0m)
+0m1.543s

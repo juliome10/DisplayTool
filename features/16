@@ -1,0 +1,39 @@
+# encoding: utf-8
+Feature: 16. Creación dun estilo
+  Como usuario da aplicación
+  Quero poder crear un estilo
+  Para poder definir unha apariencia para as diapositivas
+
+  Background: datos almacenados na base de datos[90m # 16.feature:8[0m
+    [32mGiven the following campos exist:[90m            # step_definitions/campos_steps.rb:3[0m[0m
+      | [32mtipo [0m[0m |[0m [32msubtipo  [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mTítulo   [0m[0m |[0m
+      | [32mTexto[0m[0m |[0m [32mSubtítulo[0m[0m |[0m
+    [32mGiven the following parametros exist:[90m        # step_definitions/parametros_steps.rb:3[0m[0m
+      | [32mnome                           [0m[0m |[0m [32mvariable                   [0m[0m |[0m [32mvalor        [0m[0m |[0m
+      | [32mAliñado horizontal do subtítulo[0m[0m |[0m [32msubtitulo_alinadoHorizontal[0m[0m |[0m [32mCentrado     [0m[0m |[0m
+      | [32mAliñado vertical do subtítulo  [0m[0m |[0m [32msubtitulo_alinadoVertical  [0m[0m |[0m [32mCentro       [0m[0m |[0m
+      | [32mCor da fonte do subtítulo      [0m[0m |[0m [32msubtitulo_cor              [0m[0m |[0m [32m#ffffff      [0m[0m |[0m
+      | [32mFonte do subtítulo             [0m[0m |[0m [32msubtitulo_fonte            [0m[0m |[0m [32mComic Sans MS[0m[0m |[0m
+      | [32mTamaño da fonte do subtítulo   [0m[0m |[0m [32msubtitulo_tamano           [0m[0m |[0m [32m25px         [0m[0m |[0m
+      | [32mAliñado horizontal do título   [0m[0m |[0m [32mtitulo_alinadoHorizontal   [0m[0m |[0m [32mCentrado     [0m[0m |[0m
+      | [32mAliñado vertical do título     [0m[0m |[0m [32mtitulo_alinadoVertical     [0m[0m |[0m [32mCentro       [0m[0m |[0m
+      | [32mCor da fonte do título         [0m[0m |[0m [32mtitulo_cor                 [0m[0m |[0m [32m#ffffff      [0m[0m |[0m
+      | [32mFonte do título                [0m[0m |[0m [32mtitulo_fonte               [0m[0m |[0m [32mComic Sans MS[0m[0m |[0m
+      | [32mTamaño da fonte do título      [0m[0m |[0m [32mtitulo_tamano              [0m[0m |[0m [32m40px         [0m[0m |[0m
+
+  Scenario: Creación dun estilo[90m                                     # 16.feature:28[0m
+    [32mGiven I am on [32m[1mthe home page[0m[0m[32m[90m                                     # step_definitions/web_steps.rb:46[0m[0m
+    [32mWhen I follow "[32m[1mEstilos[0m[0m[32m"[90m                                         # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1m"Estilos" page[0m[0m[32m[90m                              # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I follow "[32m[1mEngadir estilo[0m[0m[32m"[90m                                  # step_definitions/web_steps.rb:70[0m[0m
+    [32mThen I should be on [32m[1mpage for create a new "Estilo"[0m[0m[32m[90m              # step_definitions/web_steps.rb:250[0m[0m
+    [32mWhen I fill in "[32m[1mnome[0m[0m[32m" with "[32m[1mNovo estilo[0m[0m[32m"[90m                        # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mdescricion[0m[0m[32m" with "[32m[1mNovo estilo para probas[0m[0m[32m"[90m       # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I fill in "[32m[1mbackground_color[0m[0m[32m" with "[32m[1m#123456[0m[0m[32m"[90m                 # step_definitions/web_steps.rb:74[0m[0m
+    [32mAnd I press "[32m[1mCrear estilo[0m[0m[32m"[90m                                      # step_definitions/web_steps.rb:54[0m[0m
+    [32mThen I should be on [32m[1mpage for edit "Estilo" called "Novo estilo"[0m[0m[32m[90m # step_definitions/web_steps.rb:250[0m[0m
+
+1 scenario ([32m1 passed[0m)
+12 steps ([32m12 passed[0m)
+0m1.317s
