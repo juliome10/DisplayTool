@@ -53,3 +53,5 @@ end
 gem 'mysql2'
 
 gem 'jquery-simplecolorpicker-rails'
+
+gem 'rails_12factor', group: :production
