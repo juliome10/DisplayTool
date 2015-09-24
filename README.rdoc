@@ -1,6 +1,7 @@
-== DisplayTook
+== DisplayTool
 
-Servidor REST construido en Ruby on Rails que permite la creación de contenidos, estilos de los mismos y listas de reproducción para su agrupación. Se utiliza una base de datos MySQL para la persistencia de datos.
+Servidor REST construido en Ruby on Rails que permite la creación de contenidos, estilos de los mismos y listas de reproducción para su agrupación.
+Se utiliza una base de datos MySQL para la persistencia de datos.
 De los contenidos creados resultan ficheros HTML, los estilos son fragmentos de código CSS y la agrupación se consigue proporcionando funcionalidad JavaScript para redireccionar entre páginas.
 Las vistas para que el usuario lleve a cabo las diversas tareas se construyen mediante HTML5, JavaScript y CSS3, teniendo en cuenta características actuales como Responsive Web Design.
 La visualización en los terminales del centro, se consigue asignando la lista de reproducción a alguno de los dispositivos registrados en el sistema.
